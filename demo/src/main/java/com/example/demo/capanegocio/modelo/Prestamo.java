@@ -33,6 +33,10 @@ public class Prestamo {
 
     @Column
     private double multaAcumulada = 0.0;
+    
+    @Column
+    private String nombreSucursal;
+    
 
     // Getters y setters
     public int getIdPrestamo() {
@@ -110,6 +114,15 @@ public class Prestamo {
         return this.multaAcumulada;
     }
 
+    public String getNombreSucursal() {
+        return nombreSucursal;
+    }
+
+    public void setNombreSucursal(String nombreSucursal) {
+        this.nombreSucursal = nombreSucursal;
+    }
+    
+
     @Override
     public String toString() {
         return "Prestamo:" + "\n"+
@@ -120,6 +133,7 @@ public class Prestamo {
                "  Fecha limite: " + fechaLimite + "\n" +
                "  Fecha devolución: " + (fechaDevolucion != null ? fechaDevolucion : "Pendiente") + "\n" +
                "  Multa acumulada: $" + multaAcumulada + "\n" +
-               "  Multa pagada: " + (multaPagada ? "Sí" : "No");
+               "  Multa pagada: " + (multaPagada ? "Sí" : "No")+"\n" +
+                "En sucursal: " + nombreSucursal; 
     }
 }

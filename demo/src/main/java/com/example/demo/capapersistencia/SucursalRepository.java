@@ -17,5 +17,6 @@ import com.example.demo.capanegocio.modelo.Sucursal;
 public interface SucursalRepository extends CrudRepository<Sucursal, Integer> {
     public Sucursal findByNombre(String nombre);
     public Sucursal findByDireccion(String direccion);
+    
   
 }

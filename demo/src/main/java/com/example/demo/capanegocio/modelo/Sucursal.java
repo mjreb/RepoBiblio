@@ -24,7 +24,7 @@ public class Sucursal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idSucursal;
 
-    @Column(nullable = false, length = 250)
+    @Column(unique = true, nullable = false, length = 250)
     private String nombre;
 
     @Column(nullable = false, length = 250)

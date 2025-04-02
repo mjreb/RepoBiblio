@@ -41,22 +41,32 @@ public class DemoApplication {
     
      
     */
+    
+    @Autowired
+    private UserService userService;
+    
+    @Autowired
+    private AutorService autorService;
+
+    @Autowired
+    private LibroService libroService;
+    
      @Autowired
      private ItemInventarioService item; 
      
      @Autowired
     private SucursalSevice sucursalService;
+     
+     @Autowired
+    private PrestamoService prestamoService;
 /*
     
     
-    @Autowired
-    private PrestamoService prestamoService;
+    
      
     
     */
      
-     @Autowired
-    private PrestamoService prestamoService;
     
     
 	public static void main(String[] args) {
@@ -86,6 +96,7 @@ public class DemoApplication {
         
        @PostConstruct
       public void testDB(){
+          
           /*
         Usuario usuario1 = userService.agregaUsuario("Juan", "Pérez", "Gómez", "juan@example.com", 1234567890L, "password1", LocalDate.now());
         Usuario usuario2 = userService.agregaUsuario("María", "López", "Martínez", "maria@example.com", 9876543210L, "password2", LocalDate.now());
@@ -106,50 +117,38 @@ public class DemoApplication {
         Libro libro4 = libroService.agregaLibro("Harry Potter y la cámara secreta", "Salamandra", 1998, 12, autor2);
         Libro libro5 = libroService.agregaLibro("1984", "Debolsillo", 1949, 8, autor3);
         Libro libro6 = libroService.agregaLibro("Rebelión en la granja", "Debolsillo", 1945, 7, autor3);
+        */
+        
+          /*
+        System.out.println(sucursalService.crearSucursal("Zocalo", "San Salvador #12 Colonia Centro", 4L, "L-V: 8:00 a 19:00", "googlemaps.com"));
+        System.out.println(sucursalService.crearSucursal("Santa Fe", "Tlalpan 14",5L , "L-V: 8:00 a 19:00", "googlemaps.com"));
+   
+        
+        // Agregar Inventariio
+        
+        
+        item.agregarLibro(1, 1, 2); // Libro 1, Surcusal 1 , cantidad
+        item.agregarLibro(2, 1, 0);  //  Libro 2, Surcusal 1, cantidad
+        item.agregarLibro(3, 1, 3); // Libro 3, Surcusal 1 , cantidad
+        item.agregarLibro(4, 1, 2);  //  Libro 4, Surcusal 2, cantidad
+        
+        item.agregarLibro(4, 2, 2); //   Libro 4, Surcusal 2, cantidad
+        item.agregarLibro(5, 2, 1); //   Libro 5, Surcusal 2, cantidad
+        item.agregarLibro(6, 2, 2); //   Libro 6, Surcusal 2, cantidad 
+        item.agregarLibro(2, 2, 1);  //  Libro 2, Surcusal 2, cantidad
+        */
         
 
-        //Agregar préstamos (2 por usuario)
-        
-      
-        //ArrayList<Prestamo> prestamos = prestamoService.recuperaPrestamos();
-        //System.out.println(prestamos);
-          
-          
-*/
-          
-          
-          // Usuario ID: 1 (Juan Pérez Gómez)
-        
-        /*
-        prestamoService.creaPrestamo(1, 1L); // Libro ID: 1, Usuario ID: 1
-        prestamoService.creaPrestamo(3, 1L); // Libro ID: 3, Usuario ID: 1
-        
-        // Usuario ID: 2 (María López Martínez)
-        
-        
-        prestamoService.creaPrestamo(2, 2L); // Libro ID: 2, Usuario ID: 2
-        prestamoService.creaPrestamo(5, 2L); // Libro ID: 5, Usuario ID: 2
-        */
-        /*
-        item.agregarLibro(1, 1, 3);
-        item.agregarLibro(4, 1, 5);
-        item.agregarLibro(2, 1, 1);
-        */
-      //System.out.println(sucursalService.crearSucursal("Zocalo", "San Salvador #12 Colonia Centro", 4L, "L-V: 8:00 a 19:00", "googlemaps.com"));
    
-      
-      //System.out.println(libroService.recuperaLibrosPorSucursal(1));
-        /*
-        item.agregarLibro(1, 2, 7);
-        item.agregarLibro(5, 2, 1);
-        item.agregarLibro(6, 2, 0);
-        item.agregarLibro(1, 1,2 );*/
-        // prestamoService.creaPrestamo(2, 2L,1); // Libro ID: 2, Usuario ID: 2
-       //prestamoService.creaPrestamo(5, 2L,2); // Libro ID: 5, Usuario ID: 2
-        
-      //System.out.println(sucursalService.obtenerSucursalesDisponiblesParaLibro(6));
-      
-      
-        
+   
+    /*prestamoService.creaPrestamo(4 , 2L,"Zocalo"); // Libro ID: 4, Usuario ID: 2
+    prestamoService.creaPrestamo(4, 1L,"Santa Fe"); // Libro ID: 1, Usuario ID: 1
+   prestamoService.creaPrestamo(5, 2L,"Santa Fe"); // Libro ID: 5, Usuario ID: 2
+*/
+
+    //System.out.println(prestamoService.recuperaPrestamosPorUsuario(2L)); 
+    
+ //
+    
       }
 }

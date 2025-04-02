@@ -6,14 +6,17 @@ package com.example.demo.capanegocio;
 
 import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Prestamo;
+import com.example.demo.capanegocio.modelo.Sucursal;
 import com.example.demo.capanegocio.modelo.Usuario;
 import com.example.demo.capapersistencia.LibroRepository;
 import com.example.demo.capapersistencia.PrestamoRepository;
+import com.example.demo.capapersistencia.SucursalRepository;
 import com.example.demo.capapersistencia.UsuarioRepository;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,14 @@ public class PrestamoService {
     @Autowired
     private ItemInventarioService itemInventarioService;
     
+    @Autowired
+    private SucursalSevice sucursalService;
+    
+    @Autowired
+    private SucursalRepository sucursalRepository;
+    
+    
+    
 
     // Tarifa de multa por día de retraso
     private static final double TARIFA_MULTA_POR_DIA = 5.0;
@@ -50,16 +61,19 @@ public class PrestamoService {
      * Crea un nuevo préstamo.
      * @param idLibro
      * @param idUsuario
+     * @param nombreSucursal
      * @param idSucursal
      * @return 
      */
     //@Transactional
-    public Prestamo creaPrestamo(int idLibro, long idUsuario, int idSucursal) {
+    public Prestamo creaPrestamo(int idLibro, long idUsuario, String nombreSucursal) {
         Libro libro = libroRepository.findById(idLibro)
                 .orElseThrow(() -> new IllegalArgumentException("El libro no existe"));
 
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new IllegalArgumentException("El usuario no existe"));
+        
+        Sucursal sucursal = sucursalRepository.findByNombre(nombreSucursal);
 
         Prestamo prestamo = new Prestamo();
         prestamo.setLibro(libro);
@@ -69,12 +83,18 @@ public class PrestamoService {
         prestamo.setMultaAcumulada(0.0);
         prestamo.setMultaPagada(false);
         prestamo.setFechaDevolucion(null);
+        prestamo.setNombreSucursal(nombreSucursal);
 
-       
-        itemInventarioService.actualizarDisponiblidad(idLibro,idSucursal);
+        itemInventarioService.actualizarDisponiblidad(idLibro,sucursal.getIdSucursal());
         libroRepository.save(libro);
         return prestamoRepository.save(prestamo);
     }
+    
+    public ArrayList<Prestamo> recuperaPrestamosPorUsuario(long id) {
+
+        return (ArrayList<Prestamo>) prestamoRepository.findByUsuarioIdUsuario(id);
+    }
+    
 
     /**
      * Calcula la multa acumulada para un préstamo.

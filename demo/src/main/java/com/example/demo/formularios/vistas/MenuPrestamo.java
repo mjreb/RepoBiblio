@@ -130,6 +130,9 @@ public class MenuPrestamo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonIrAMenuUsuarioActionPerformed
 
     private void jButtonIrAConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAConsultaActionPerformed
+        System.out.println(prestamoService.recuperaPrestamosPorUsuario(idUsuario));
+        
+        
         /*TablaPrestamos prestamos=new TablaPrestamos();
         prestamos.setVisible(true);
         this.dispose();
