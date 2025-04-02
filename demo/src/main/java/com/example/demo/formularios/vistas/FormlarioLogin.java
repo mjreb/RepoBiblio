@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import com.example.demo.formularios.admin.MenuAdmin;
 
 /**
  *
@@ -34,7 +35,10 @@ public class FormlarioLogin extends javax.swing.JFrame {
     private ApplicationContext context;
     
     @Autowired
-    private MenuUsuario usuario; 
+    private MenuUsuario usuario;
+    
+    @Autowired
+    private MenuAdmin admin;
        
     private long idUsuario; 
     
@@ -193,11 +197,11 @@ public class FormlarioLogin extends javax.swing.JFrame {
                      break;
                      
                 case 1:
-                    /*JOptionPane.showMessageDialog(this, "Sesion iniciada");
-                     usuario.setVisible(true);
+                    JOptionPane.showMessageDialog(this, "bienvenido");
+                    admin.setVisible(true);
                     this.dispose();
 
-                    */
+                    
                     break;
                  
                 default:

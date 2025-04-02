@@ -10,6 +10,7 @@ import com.example.demo.capapersistencia.PrestamoRepository;
 import com.example.demo.capapersistencia.UsuarioRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 //import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class UserService {
                 usuario.setContrasena(contrasena);
                 usuario.setTipoUsuario(0); // Indica que es un usuario normal por defecto
                 usuario.setUltimoAcceso(ultimo_acceso);
-                usuario.setPermisosPrestamo(1);
+                usuario.setPermisosPrestamo(true);
                 
                 usuarioRepository.save(usuario);
 	
@@ -87,5 +88,18 @@ public class UserService {
  
     }
     
-  
+    public void actualizarPermiso(Long idUsuario, boolean permisoActivo) {
+    Optional<Usuario> opUsuario = usuarioRepository.findById(idUsuario);
+    if(opUsuario.isPresent()){
+        Usuario usuario = opUsuario.get();
+        usuario.setPermisosPrestamo(permisoActivo);
+        usuarioRepository.save(usuario);
+    } else {
+        throw new RuntimeException("El id de usuario " + idUsuario + " no se encuentra");
+    }
+    }
+    
+    public void eliminarUsuario(Long idUsuario){
+        usuarioRepository.deleteById(idUsuario);
+    }
 }

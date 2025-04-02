@@ -34,7 +34,7 @@ public class Usuario {
     private String contrasena;    
     private int tipoUsuario; 
     private LocalDate ultimoAcceso;
-    private int permisosPrestamo; 
+    private boolean permisosPrestamo = true; 
     
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prestamo> prestamos = new ArrayList<>();
@@ -43,11 +43,11 @@ public class Usuario {
     }
    
     
-    public int getPermisosPrestamo() {
+    public boolean getPermisosPrestamo() {
         return permisosPrestamo;
     }
 
-    public void setPermisosPrestamo(int permisosPrestamo) {
+    public void setPermisosPrestamo(boolean permisosPrestamo) {
         this.permisosPrestamo = permisosPrestamo;
     }
 
@@ -137,10 +137,6 @@ public String toString() {
            "Último Acceso: " + ultimoAcceso + "\n";
 }
 
-
-    
-    
-    
 }
 
 
