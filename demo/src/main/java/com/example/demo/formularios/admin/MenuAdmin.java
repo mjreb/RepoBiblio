@@ -138,9 +138,9 @@ public class MenuAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GenReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenReportesActionPerformed
-        /*MenuReportes reporte=context.getBean(MenuReportes.class);
+        MenuReportes reporte=context.getBean(MenuReportes.class);
         reporte.setVisible(true);
-        this.dispose();*/
+        this.dispose();
     }//GEN-LAST:event_GenReportesActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
@@ -150,9 +150,9 @@ public class MenuAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void AñadirLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirLibrosActionPerformed
-        /*FormularioLibros fLib =context.getBean(FormularioLibros.class);
+        FormularioLibros fLib =context.getBean(FormularioLibros.class);
         fLib.setVisible(true);
-        this.dispose();*/
+        this.dispose();
     }//GEN-LAST:event_AñadirLibrosActionPerformed
 
     private void GestionUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionUsuariosActionPerformed

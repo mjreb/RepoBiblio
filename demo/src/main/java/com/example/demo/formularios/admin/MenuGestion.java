@@ -113,15 +113,15 @@ public class MenuGestion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MultaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MultaUsuarioActionPerformed
-        /*GenerarMulta multa =context.getBean(GenerarMulta.class);
+        GenerarMulta multa =context.getBean(GenerarMulta.class);
         multa.setVisible(true);
-        this.dispose();*/
+        this.dispose();
     }//GEN-LAST:event_MultaUsuarioActionPerformed
 
     private void EliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminaActionPerformed
-        /*ElimUsuario gPermi=context.getBean(ElimUsuario.class);
+        ElimUsuario gPermi=context.getBean(ElimUsuario.class);
         gPermi.setVisible(true);
-        this.dispose();*/
+        this.dispose();
     }//GEN-LAST:event_EliminaActionPerformed
 
     private void GestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionActionPerformed

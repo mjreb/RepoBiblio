@@ -97,5 +97,9 @@ public class UserService {
     } else {
         throw new RuntimeException("El id de usuario " + idUsuario + " no se encuentra");
     }
-}
+    }
+    
+    public void eliminarUsuario(Long idUsuario){
+        usuarioRepository.deleteById(idUsuario);
+    }
 }
