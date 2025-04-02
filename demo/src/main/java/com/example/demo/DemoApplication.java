@@ -76,7 +76,7 @@ public class DemoApplication {
         app.setHeadless(false);  // Desactiva modo headless
         ApplicationContext context = app.run(args);
         
-        // Obtener el bean y hacerlo visible
+        //Obtener el bean y hacerlo visible
         
         
         FormlarioLogin loginForm = context.getBean(FormlarioLogin.class);
@@ -145,10 +145,13 @@ public class DemoApplication {
     prestamoService.creaPrestamo(4, 1L,"Santa Fe"); // Libro ID: 1, Usuario ID: 1
    prestamoService.creaPrestamo(5, 2L,"Santa Fe"); // Libro ID: 5, Usuario ID: 2
 */
+    //System.out.println(prestamoService.creaPrestamo(1 , 3L,"Zocalo")); // Libro ID: 4, Usuario ID: 2
 
-    //System.out.println(prestamoService.recuperaPrestamosPorUsuario(2L)); 
+    //System.out.println(prestamoService.recuperaPrestamosPorUsuario(3L)); 
     
  //
+ 
+ //System.out.println(prestamoService.registrarDevolucion(14)); 
     
       }
 }

@@ -140,13 +140,17 @@ public class MenuPrestamo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonIrAConsultaActionPerformed
 
     private void jButtonCrearPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearPrestamoActionPerformed
-        int numero = prestamoService.numeroPrestamos(idUsuario);
         
-        if (numero < 2){
-            JOptionPane.showMessageDialog(this,"Siguiente vista");
-        }else {
-            JOptionPane.showMessageDialog(this,"Número máximo de préstamos alcanzado");
-        }
+       try{
+           prestamoService.revisaCondiciones(idUsuario);
+           
+       }catch(IllegalStateException i){
+           JOptionPane.showMessageDialog(this, i.getMessage());
+           
+           
+       }
+        
+       
            
     }//GEN-LAST:event_jButtonCrearPrestamoActionPerformed
 

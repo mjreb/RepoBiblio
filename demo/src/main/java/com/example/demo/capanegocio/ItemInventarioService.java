@@ -86,7 +86,7 @@ public class ItemInventarioService {
   
     }
     
-   public void actualizarDisponiblidad(int idLibro,int idSucursal){
+   public void actualizarDisponiblidad(int idLibro,int idSucursal,int proceso){
        Libro libro = libroService.recuperaLibroPorId(idLibro);
        Sucursal sucursal = sucursalService.recuperarSucursal(idSucursal);
        Inventario inventario = inventarioRepository.findBySucursal(sucursal);
@@ -96,10 +96,19 @@ public class ItemInventarioService {
                     "No se encontró inventario para el libro ID: " + idLibro + 
                     " en la sucursal ID: " + idSucursal));
        
-       item.setCantidad(item.getCantidad() - 1);
+       switch (proceso){
+               case 1:
+                   item.setCantidad(item.getCantidad() - 1); //prestamo
+                   break;
+                case 2:
+                    item.setCantidad(item.getCantidad() + 1); //devolucion
+                    break; 
+            }  
+
        itemInventarioRepository.save(item);
  
    }
     
+        
     
 }
