@@ -91,11 +91,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Consulta"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIrAConsultaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonIrAAservo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Aservo de otras sucursales"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIrAAservoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

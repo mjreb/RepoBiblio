@@ -79,8 +79,18 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
 
         jButtonIrAConsulta.setText("Consulta");
+        jButtonIrAConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIrAConsultaActionPerformed(evt);
+            }
+        });
 
         jButtonIrAAservo.setText("Aservo de otras sucursales");
+        jButtonIrAAservo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIrAAservoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,6 +143,14 @@ public class MenuUsuario extends javax.swing.JFrame {
         formularioDevolucion.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrADevolucionesActionPerformed
+
+    private void jButtonIrAAservoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAAservoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonIrAAservoActionPerformed
+
+    private void jButtonIrAConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAConsultaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonIrAConsultaActionPerformed
 
     /**
      * @param args the command line arguments

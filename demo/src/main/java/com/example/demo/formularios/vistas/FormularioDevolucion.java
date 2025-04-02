@@ -9,6 +9,8 @@ package com.example.demo.formularios.vistas;
 
 //import CapaNegocio.ManejadorLibros;
 //import CapaPersistencia.ConexionDB;
+import com.example.demo.capanegocio.PrestamoService;
+import com.example.demo.capapersistencia.PrestamoRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +28,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("prototype")
 public class FormularioDevolucion extends javax.swing.JFrame {
+    
+    @Autowired
+    private PrestamoService prestamoService;
+    
 
     /**
      * Creates new form FormularioDevolucion
@@ -123,7 +129,21 @@ public class FormularioDevolucion extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIDLibroActionPerformed
 
     private void jButtonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDevolverActionPerformed
-        /*String idPrestamo=txtIDLibro.getText();
+        String numero=txtIDLibro.getText();
+        
+        
+         try {
+            int idPrestamo = Integer.parseInt(numero);
+            prestamoService.registrarDevolucion(idPrestamo);
+            JOptionPane.showMessageDialog(this, "Devolucion exitosa");
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Ingrese un ID de libro válido.");
+ 
+        }catch (IllegalArgumentException a){
+            JOptionPane.showMessageDialog(this, a.getMessage());
+        }
+        
+        /*
         String sqlSelect = "SELECT id_libro, id_usuario FROM Prestamo WHERE id_prestamo = ?";
 
         //Connection conexion = new ConexionDB().obtenerConexion();

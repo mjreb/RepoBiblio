@@ -85,17 +85,17 @@ public class PrestamoService {
         prestamo.setFechaDevolucion(null);
         prestamo.setNombreSucursal(nombreSucursal);
 
-        itemInventarioService.actualizarDisponiblidad(idLibro,sucursal.getIdSucursal());
+        itemInventarioService.actualizarDisponiblidad(idLibro,sucursal.getIdSucursal(),1);
         libroRepository.save(libro);
         return prestamoRepository.save(prestamo);
     }
-    
+    /*
     public ArrayList<Prestamo> recuperaPrestamosPorUsuario(long id) {
 
         return (ArrayList<Prestamo>) prestamoRepository.findByUsuarioIdUsuario(id);
     }
     
-
+*/
     /**
      * Calcula la multa acumulada para un préstamo.
      */
@@ -117,8 +117,10 @@ public class PrestamoService {
 
     /**
      * Registra la devolución de un libro.
+     * @param idPrestamo
+     * @return 
      */
-    @Transactional
+    //@Transactional
     public Prestamo registrarDevolucion(int idPrestamo) {
         Prestamo prestamo = prestamoRepository.findById(idPrestamo)
                 .orElseThrow(() -> new IllegalArgumentException("Préstamo no encontrado"));
@@ -130,19 +132,20 @@ public class PrestamoService {
         prestamo.setFechaDevolucion(LocalDate.now());
         
         // Calcular multa final si hay retraso
-        if (LocalDate.now().isAfter(prestamo.getFechaLimite()) && !prestamo.isMultaPagada()) {
+        if (LocalDate.now().isAfter(prestamo.getFechaLimite())) {
             long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaLimite(), LocalDate.now());
             prestamo.setMultaAcumulada(diasRetraso * TARIFA_MULTA_POR_DIA);
         }
 
-        // Liberar el libro
+        // Actualizar catálogo
+        Sucursal sucursal = sucursalService.recuperaSucursalPorNombre(prestamo.getNombreSucursal());
         Libro libro = prestamo.getLibro();
-        //libro.setCantidad(1+ 1);
-
+        itemInventarioService.actualizarDisponiblidad(libro.getIdLibro(),sucursal.getIdSucursal(),2);
         libroRepository.save(libro);
         return prestamoRepository.save(prestamo);
     }
 
+    
     /**
      * Actualiza diariamente las multas para préstamos vencidos no devueltos.
      */
@@ -180,6 +183,7 @@ public class PrestamoService {
 
     /**
      * Obtiene préstamos con multas pendientes de pago.
+     * @return 
      */
     public List<Prestamo> obtenerPrestamosConMultaPendiente() {
         return prestamoRepository.findByMultaAcumuladaGreaterThanAndMultaPagadaFalse(0.0);
@@ -193,7 +197,40 @@ public class PrestamoService {
         return prestamos.size();
     }
     
-            
+public void revisaCondiciones(long idUsuario) {
+    //boolean flag = false; 
+    if (numeroPrestamos(idUsuario) >= 2) {
+        throw new IllegalStateException("Número máximo de préstamos alcanzado");
+    } else {
+        ArrayList<Prestamo> prestamos = recuperaPrestamosPorUsuario(idUsuario); 
+        ArrayList<Integer> idPrestamos = new ArrayList<>();
+        for (Prestamo p : prestamos) {
+            if (p.getMultaAcumulada() != 0.0) {
+                idPrestamos.add(p.getIdPrestamo());
+            }
+        }
+        
+        if (!idPrestamos.isEmpty()) {
+            throw new IllegalStateException("Existen prestamos con multas pendientes");
+        }
+    }
+}
+
+
+    public ArrayList<Prestamo> recuperaPrestamosPorUsuario(long id) {
+         ArrayList<Prestamo> prestamosFiltrados = new ArrayList(); 
+         ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByUsuarioIdUsuario(id);
+    
+            for(Prestamo p:prestamos){
+                if (p.getFechaDevolucion() ==  null || p.getMultaAcumulada() != 0.0)
+                    prestamosFiltrados.add(p);
+                }
+    
+  
+        return prestamosFiltrados; 
+    }
+    
+    
     
 
     
