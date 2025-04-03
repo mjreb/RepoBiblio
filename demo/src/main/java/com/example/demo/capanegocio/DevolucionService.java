@@ -43,12 +43,17 @@ public class DevolucionService {
             throw new IllegalStateException("Este préstamo ya tiene una devolución registrada");
         }
 
+        // Verificar si el préstamo ya fue marcado como devuelto (redundante pero segura)
+        if (prestamo.getFechaDevolucion() != null) {
+            throw new IllegalStateException("Este préstamo ya fue marcado como devuelto");
+        }
+
         // Crear la devolución
         Devolucion devolucion = new Devolucion();
         devolucion.setPrestamo(prestamo);
-        devolucion.setUsuario(prestamo.getUsuario());
-        devolucion.setFechaDevolucion(prestamo.getFechaDevolucion());
+        devolucion.setFechaDevolucion(LocalDate.now());
         devolucion.setMulta(prestamo.getMultaAcumulada());
+        devolucion.setEstado(prestamo.isMultaPagada() ? "PAGADO" : "PENDIENTE");
 
         // Guardar la devolución
         return devolucionRepository.save(devolucion);
@@ -62,5 +67,36 @@ public class DevolucionService {
      * @throws IllegalStateException Si la devolución no existe o ya está pagada.
      */
     
+public Devolucion pagarMulta(int idDevolucion) {
+    // Versión con manejo explícito del Optional
+    Devolucion devolucion = (Devolucion) devolucionRepository.findByIdDevolucion(idDevolucion);
 
+        if ("PAGADO".equals(devolucion.getEstado())) {
+            throw new IllegalStateException("La multa ya fue pagada anteriormente");
+        }
+
+        // Actualizar tanto la devolución como el préstamo asociado
+        devolucion.setEstado("PAGADO");
+        if (devolucion.getPrestamo() != null) {
+            devolucion.getPrestamo().setMultaPagada(true);
+            prestamoRepository.save(devolucion.getPrestamo());
+        }
+
+        return devolucionRepository.save(devolucion);
+}
+
+    /**
+     * Obtiene la multa pendiente para una devolución.
+     * @param idDevolucion
+     */
+    public double consultarMultaPendiente(int idDevolucion) {
+        
+        Devolucion optionalDevolucion = (Devolucion) devolucionRepository.findByIdDevolucion(idDevolucion);
+    
+    /*if (optionalDevolucion =) {
+        throw new IllegalArgumentException("No existe devolución con ID: " + idDevolucion);
+    }*/
+    
+        return "PAGADO".equals(optionalDevolucion.getEstado()) ? 0.0 : optionalDevolucion.getMulta();
+    }
 }

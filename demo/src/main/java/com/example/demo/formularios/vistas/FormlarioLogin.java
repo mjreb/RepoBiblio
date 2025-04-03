@@ -39,6 +39,7 @@ public class FormlarioLogin extends javax.swing.JFrame {
     
     @Autowired
     private MenuAdmin admin;
+    
        
     private long idUsuario; 
     
@@ -182,6 +183,8 @@ public class FormlarioLogin extends javax.swing.JFrame {
         String correoIngresado=txtCorreo.getText();
         String contrasenaIngresada=new String(txtContrasena.getPassword());
         Usuario user = userService.autenticar(correoIngresado, contrasenaIngresada);
+        CrearPrestamo prestamo = context.getBean(CrearPrestamo.class);
+
         
         if(user != null){
             long id = userService.obtenerId(user);
@@ -192,7 +195,6 @@ public class FormlarioLogin extends javax.swing.JFrame {
                 case 0: 
                      JOptionPane.showMessageDialog(this, "Sesion iniciada");
                      usuario.pasarId(id);
-                     System.out.println("Id en login antes de pasar a MenuUsuario" + idUsuario);
                      usuario.setVisible(true);
                      this.dispose();
                      break;

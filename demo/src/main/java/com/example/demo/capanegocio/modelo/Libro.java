@@ -25,7 +25,7 @@ public class Libro {
     @Column(nullable = false, length = 20)
     private int anio;
     
-    @ManyToOne// Muchos libros pueden pertecer a un autor 
+    @ManyToOne(cascade = CascadeType.PERSIST) // Muchos libros pueden pertecer a un autor 
     @JoinColumn(name = "id_autor", nullable = false)
     private Autor autor;
 

@@ -43,12 +43,6 @@ public class PrestamoService {
     @Autowired
     private SucursalRepository sucursalRepository;
     
-    @Autowired
-    private UserService usuarioService;
-     @Autowired
-    private DevolucionService devolucionService;
-
-    
     
     
 
@@ -124,17 +118,12 @@ public class PrestamoService {
     /**
      * Registra la devolución de un libro.
      * @param idPrestamo
-     * @param idUsuario
      * @return 
      */
     //@Transactional
-    public Prestamo registrarDevolucion(int idPrestamo, long idUsuario) {
+    public Prestamo registrarDevolucion(int idPrestamo) {
         Prestamo prestamo = prestamoRepository.findById(idPrestamo)
                 .orElseThrow(() -> new IllegalArgumentException("Préstamo no encontrado"));
-        
-        if (prestamo.getUsuario().getidUsuario() != idUsuario) {
-            throw new IllegalArgumentException("Este préstamo no es de este usuario");
-        }
 
         if (prestamo.getFechaDevolucion() != null) {
             throw new IllegalArgumentException("Este préstamo ya fue devuelto");
@@ -153,13 +142,53 @@ public class PrestamoService {
         Libro libro = prestamo.getLibro();
         itemInventarioService.actualizarDisponiblidad(libro.getIdLibro(),sucursal.getIdSucursal(),2);
         libroRepository.save(libro);
-        Prestamo prestamo2 = prestamoRepository.save(prestamo);
-        devolucionService.registrarDevolucion(idPrestamo);
-        return prestamo2; 
+        return prestamoRepository.save(prestamo);
+    }
+
+    
+    /**
+     * Actualiza diariamente las multas para préstamos vencidos no devueltos.
+     */
+    @Scheduled(cron = "0 0 0 * * ?") // Se ejecuta a medianoche cada día
+    @Transactional
+    public void actualizarMultasDiarias() {
+        List<Prestamo> prestamosVencidos = prestamoRepository
+                .findByFechaDevolucionIsNullAndFechaLimiteBefore(LocalDate.now());
+
+        for (Prestamo prestamo : prestamosVencidos) {
+            if (!prestamo.isMultaPagada()) {
+                long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaLimite(), LocalDate.now());
+                double multa = diasRetraso * TARIFA_MULTA_POR_DIA;
+                prestamo.setMultaAcumulada(multa);
+                prestamoRepository.save(prestamo);
+            }
+        }
+    }
+
+    /**
+     * Registra el pago de una multa.
+     */
+    @Transactional
+    public Prestamo pagarMulta(int idPrestamo) {
+        Prestamo prestamo = prestamoRepository.findById(idPrestamo)
+                .orElseThrow(() -> new IllegalArgumentException("Préstamo no encontrado"));
+
+        if (prestamo.isMultaPagada()) {
+            throw new IllegalStateException("La multa ya fue pagada");
+        }
+
+        prestamo.setMultaPagada(true);
+        return prestamoRepository.save(prestamo);
+    }
+
+    /**
+     * Obtiene préstamos con multas pendientes de pago.
+     * @return 
+     */
+    public List<Prestamo> obtenerPrestamosConMultaPendiente() {
+        return prestamoRepository.findByMultaAcumuladaGreaterThanAndMultaPagadaFalse(0.0);
     }
     
-    
- 
     
     public int numeroPrestamos(long id){
         
@@ -170,42 +199,21 @@ public class PrestamoService {
     
 public void revisaCondiciones(long idUsuario) {
     //boolean flag = false; 
-    
-    Usuario usuario = usuarioService.obtenerUsuarioPorId(idUsuario);
-    
-    //Reviso que el usuario exista
-    if (usuario == null){
-        throw new IllegalStateException("Usuario no exste");   
-    }
-    
-    //  Reviso que tenga permisos para hacer prestamo
-    if(usuarioService.obtenerPermisoUsuario(usuario) == false){
-        throw new IllegalStateException("Usuario no tiene permisos de prestamo");   
-    }
-    
-    // Creo el arreglo para almacenar los usuarios
-    ArrayList<Prestamo> prestamos = recuperaPrestamosPorUsuario(idUsuario); 
-
-     
-    long prestamosActivos = prestamos.stream()
-                                     .filter(p -> p.getFechaDevolucion() == null)
-                                     .count();
-    
-    if (prestamosActivos>=2){
+    if (numeroPrestamos(idUsuario) >= 2) {
         throw new IllegalStateException("Número máximo de préstamos alcanzado");
-    }
+    } else {
+        ArrayList<Prestamo> prestamos = recuperaPrestamosPorUsuario(idUsuario); 
+        ArrayList<Integer> idPrestamos = new ArrayList<>();
+        for (Prestamo p : prestamos) {
+            if (p.getMultaAcumulada() != 0.0) {
+                idPrestamos.add(p.getIdPrestamo());
+            }
+        }
         
-    ArrayList<Integer> idPrestamos = new ArrayList<>();
-    for (Prestamo p : prestamos) {
-        if (p.getMultaAcumulada() != 0.0) {
-            idPrestamos.add(p.getIdPrestamo());
+        if (!idPrestamos.isEmpty()) {
+            throw new IllegalStateException("Existen prestamos con multas pendientes");
         }
     }
-        
-    if (!idPrestamos.isEmpty()) {
-        throw new IllegalStateException("Existen prestamos con multas pendientes");
-    }
-    
 }
 
 
