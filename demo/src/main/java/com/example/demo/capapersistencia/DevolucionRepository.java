@@ -6,6 +6,8 @@ package com.example.demo.capapersistencia;
 
 import com.example.demo.capanegocio.modelo.Devolucion;
 import com.example.demo.capanegocio.modelo.Prestamo;
+import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +20,8 @@ public interface DevolucionRepository extends JpaRepository<Devolucion, Long> {
     public boolean existsByPrestamo(Prestamo prestamo);
 
     public Object findByIdDevolucion(int idDevolucion);
+    public List<Devolucion> findByFechaInicioGreaterThanEqual(LocalDate fecha);
+
     
     
 }

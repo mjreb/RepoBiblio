@@ -102,4 +102,12 @@ public class UserService {
     public void eliminarUsuario(Long idUsuario){
         usuarioRepository.deleteById(idUsuario);
     }
+    
+    public ArrayList<Usuario> recuperaUsuariosPorfecha(LocalDate fechaHaceUnMes) {
+         ArrayList<Usuario> Usuarios = (ArrayList<Usuario>)usuarioRepository.findByUltimoAccesoGreaterThanEqual(fechaHaceUnMes);
+        return Usuarios; 
+    }
+
+    
+      
 }

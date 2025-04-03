@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -98,5 +99,11 @@ public Devolucion pagarMulta(int idDevolucion) {
     }*/
     
         return "PAGADO".equals(optionalDevolucion.getEstado()) ? 0.0 : optionalDevolucion.getMulta();
+    }
+    
+    public ArrayList<Devolucion> recuperaDevolucionesPorfecha(LocalDate fecha) {
+        ArrayList<Devolucion> devolucion = (ArrayList<Devolucion>)devolucionRepository.findByFechaDevolucionGreaterThanEqual(fecha);
+
+        return devolucion; 
     }
 }
