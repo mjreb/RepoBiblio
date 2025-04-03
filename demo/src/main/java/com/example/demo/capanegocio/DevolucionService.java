@@ -51,9 +51,9 @@ public class DevolucionService {
         // Crear la devolución
         Devolucion devolucion = new Devolucion();
         devolucion.setPrestamo(prestamo);
-        devolucion.setFechaDevolucion(LocalDate.now());
+        devolucion.setFechaDevolucion(prestamo.getFechaDevolucion());
         devolucion.setMulta(prestamo.getMultaAcumulada());
-        devolucion.setEstado(prestamo.isMultaPagada() ? "PAGADO" : "PENDIENTE");
+        //devolucion.setEstado(prestamo.isMultaPagada() ? "PAGADO" : "PENDIENTE");
 
         // Guardar la devolución
         return devolucionRepository.save(devolucion);

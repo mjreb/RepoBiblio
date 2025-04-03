@@ -134,12 +134,15 @@ public class MenuUsuario extends javax.swing.JFrame {
     private void jButtonIrAPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAPrestamosActionPerformed
         MenuPrestamo menuPrestamo = context.getBean(MenuPrestamo.class);
         menuPrestamo.pasarId(idUsuario);
+        System.out.println("Id en MenuUsuario antes de pasar a MenuPrestamo" + idUsuario);
         menuPrestamo.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrAPrestamosActionPerformed
 
     private void jButtonIrADevolucionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrADevolucionesActionPerformed
         FormularioDevolucion formularioDevolucion= context.getBean(FormularioDevolucion.class);
+        formularioDevolucion.pasarId(idUsuario);
+         System.out.println("Id en MenuUsuario antes de pasar a devolucion" + idUsuario);
         formularioDevolucion.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrADevolucionesActionPerformed

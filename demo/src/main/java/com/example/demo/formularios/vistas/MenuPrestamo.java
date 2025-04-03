@@ -125,6 +125,9 @@ public class MenuPrestamo extends javax.swing.JFrame {
 
     private void jButtonIrAMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAMenuUsuarioActionPerformed
         MenuUsuario menuUsuario = context.getBean(MenuUsuario.class);
+        menuUsuario.pasarId(idUsuario);
+        System.out.println("Id en MenuPrestamo  antes de regresar a MenuUsuario" + idUsuario);
+        
         menuUsuario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrAMenuUsuarioActionPerformed

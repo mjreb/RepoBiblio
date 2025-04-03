@@ -192,6 +192,7 @@ public class FormlarioLogin extends javax.swing.JFrame {
                 case 0: 
                      JOptionPane.showMessageDialog(this, "Sesion iniciada");
                      usuario.pasarId(id);
+                     System.out.println("Id en login antes de pasar a MenuUsuario" + idUsuario);
                      usuario.setVisible(true);
                      this.dispose();
                      break;
