@@ -38,8 +38,6 @@ public class Devolucion {
     @Column
     private double multa;
 
-    @Column
-    private String estado; // "PAGADO", "PENDIENTE"
 
     public int getIdDevolucion() {
         return idDevolucion;
@@ -81,13 +79,6 @@ public class Devolucion {
         this.multa = multa;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
 
     @Override
     public String toString() {
@@ -96,7 +87,7 @@ public class Devolucion {
                "  Usuario: " + (usuario != null ? usuario.toString() : "N/A") + "\n" +
                "  Prestamo ID: " + (prestamo != null ? prestamo.getIdPrestamo() : "N/A") + "\n" +
                "  Fecha de devolucion: " + fechaDevolucion + "\n" +
-               "  Multa: " + multa + "\n" +
-               "  Estado: " + estado;
+               "  Multa: " + multa + "\n" ;
+            
     }
 }

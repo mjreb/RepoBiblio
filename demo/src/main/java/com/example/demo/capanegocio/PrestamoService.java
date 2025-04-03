@@ -45,6 +45,8 @@ public class PrestamoService {
     
     @Autowired
     private UserService usuarioService;
+     @Autowired
+    private DevolucionService devolucionService;
 
     
     
@@ -151,56 +153,13 @@ public class PrestamoService {
         Libro libro = prestamo.getLibro();
         itemInventarioService.actualizarDisponiblidad(libro.getIdLibro(),sucursal.getIdSucursal(),2);
         libroRepository.save(libro);
-        return prestamoRepository.save(prestamo);
+        Prestamo prestamo2 = prestamoRepository.save(prestamo);
+        devolucionService.registrarDevolucion(idPrestamo);
+        return prestamo2; 
     }
     
     
-    
-
-    
-    /**
-     * Actualiza diariamente las multas para préstamos vencidos no devueltos.
-     */
-    @Scheduled(cron = "0 0 0 * * ?") // Se ejecuta a medianoche cada día
-    @Transactional
-    public void actualizarMultasDiarias() {
-        List<Prestamo> prestamosVencidos = prestamoRepository
-                .findByFechaDevolucionIsNullAndFechaLimiteBefore(LocalDate.now());
-
-        for (Prestamo prestamo : prestamosVencidos) {
-            if (!prestamo.isMultaPagada()) {
-                long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaLimite(), LocalDate.now());
-                double multa = diasRetraso * TARIFA_MULTA_POR_DIA;
-                prestamo.setMultaAcumulada(multa);
-                prestamoRepository.save(prestamo);
-            }
-        }
-    }
-
-    /**
-     * Registra el pago de una multa.
-     */
-    @Transactional
-    public Prestamo pagarMulta(int idPrestamo) {
-        Prestamo prestamo = prestamoRepository.findById(idPrestamo)
-                .orElseThrow(() -> new IllegalArgumentException("Préstamo no encontrado"));
-
-        if (prestamo.isMultaPagada()) {
-            throw new IllegalStateException("La multa ya fue pagada");
-        }
-
-        prestamo.setMultaPagada(true);
-        return prestamoRepository.save(prestamo);
-    }
-
-    /**
-     * Obtiene préstamos con multas pendientes de pago.
-     * @return 
-     */
-    public List<Prestamo> obtenerPrestamosConMultaPendiente() {
-        return prestamoRepository.findByMultaAcumuladaGreaterThanAndMultaPagadaFalse(0.0);
-    }
-    
+ 
     
     public int numeroPrestamos(long id){
         
