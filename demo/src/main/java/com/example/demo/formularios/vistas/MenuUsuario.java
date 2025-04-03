@@ -4,7 +4,6 @@
  */
 package com.example.demo.formularios.vistas;
 
-import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
@@ -102,7 +101,7 @@ public class MenuUsuario extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jButtonIrAPrestamos)
-                        .addGap(33, 33, 33)
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonIrADevoluciones)
@@ -112,7 +111,7 @@ public class MenuUsuario extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(114, 114, 114)
                         .addComponent(jButtonIrAAservo)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,15 +132,17 @@ public class MenuUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonIrAPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAPrestamosActionPerformed
-
         MenuPrestamo menuPrestamo = context.getBean(MenuPrestamo.class);
         menuPrestamo.pasarId(idUsuario);
+        System.out.println("Id en MenuUsuario antes de pasar a MenuPrestamo" + idUsuario);
         menuPrestamo.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrAPrestamosActionPerformed
 
     private void jButtonIrADevolucionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrADevolucionesActionPerformed
         FormularioDevolucion formularioDevolucion= context.getBean(FormularioDevolucion.class);
+        formularioDevolucion.pasarId(idUsuario);
+         System.out.println("Id en MenuUsuario antes de pasar a devolucion" + idUsuario);
         formularioDevolucion.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrADevolucionesActionPerformed

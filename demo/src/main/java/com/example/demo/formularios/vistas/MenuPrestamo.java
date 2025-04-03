@@ -33,8 +33,6 @@ public class MenuPrestamo extends javax.swing.JFrame {
     @Autowired
     private PrestamoService prestamoService;
     
-   
-    
     public MenuPrestamo() {
         initComponents();
     }
@@ -127,12 +125,15 @@ public class MenuPrestamo extends javax.swing.JFrame {
 
     private void jButtonIrAMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAMenuUsuarioActionPerformed
         MenuUsuario menuUsuario = context.getBean(MenuUsuario.class);
+        menuUsuario.pasarId(idUsuario);
+        System.out.println("Id en MenuPrestamo  antes de regresar a MenuUsuario" + idUsuario);
+        
         menuUsuario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrAMenuUsuarioActionPerformed
 
     private void jButtonIrAConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAConsultaActionPerformed
-        JOptionPane.showMessageDialog(this,prestamoService.recuperaPrestamosPorUsuario(idUsuario));
+        System.out.println(prestamoService.recuperaPrestamosPorUsuario(idUsuario));
         
         
         /*TablaPrestamos prestamos=new TablaPrestamos();
@@ -142,12 +143,10 @@ public class MenuPrestamo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonIrAConsultaActionPerformed
 
     private void jButtonCrearPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearPrestamoActionPerformed
-       CrearPrestamo prestamo=context.getBean(CrearPrestamo.class);
-       prestamo.pasarid(idUsuario);
+        
        try{
            prestamoService.revisaCondiciones(idUsuario);
-           prestamo.setVisible(true);
-           this.dispose();
+           
        }catch(IllegalStateException i){
            JOptionPane.showMessageDialog(this, i.getMessage());
            
