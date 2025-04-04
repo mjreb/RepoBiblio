@@ -37,7 +37,7 @@
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="txtEdicion" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtAutor" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtIdAutor" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtTitulo" min="-2" pref="296" max="-2" attributes="0"/>
                           <Component id="txtEditorial" alignment="1" max="32767" attributes="0"/>
                           <Component id="txtCantidad" alignment="1" max="32767" attributes="0"/>
@@ -95,7 +95,7 @@
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtAutor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtIdAutor" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="50" max="32767" attributes="0"/>
               <Component id="Guardar" min="-2" max="-2" attributes="0"/>
@@ -162,7 +162,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtEdicion">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtAutor">
+    <Component class="javax.swing.JTextField" name="txtIdAutor">
     </Component>
   </SubComponents>
 </Form>
