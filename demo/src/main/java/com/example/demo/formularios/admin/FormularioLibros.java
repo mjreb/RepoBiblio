@@ -129,7 +129,7 @@ public class FormularioLibros extends javax.swing.JFrame {
         txtTitulo = new javax.swing.JTextField();
         txtEditorial = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
-        txtEdicion = new javax.swing.JTextField();
+        txtAnio = new javax.swing.JTextField();
         cmbSucursal = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         txtIdAutor = new javax.swing.JFormattedTextField();
@@ -142,7 +142,7 @@ public class FormularioLibros extends javax.swing.JFrame {
 
         jLabel3.setText("Cantidad");
 
-        jLabel4.setText("Edición");
+        jLabel4.setText("Año");
 
         jLabel5.setText("Autor");
 
@@ -209,7 +209,7 @@ public class FormularioLibros extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbSucursal, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtEdicion)
+                            .addComponent(txtAnio)
                             .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                             .addComponent(txtEditorial, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -240,7 +240,7 @@ public class FormularioLibros extends javax.swing.JFrame {
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -281,14 +281,12 @@ public class FormularioLibros extends javax.swing.JFrame {
     }//GEN-LAST:event_VolverActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
-        
-        
-        
+  
         try{
             String titulo=txtTitulo.getText();
             String editorial=txtEditorial.getText();
             int cantidad = Integer.parseInt(txtCantidad.getText());
-            int anio = Integer.parseInt(txtEdicion.getText());
+            int anio = Integer.parseInt(txtAnio.getText());
             long idAutor = Long.parseLong(txtIdAutor.getText());
             Autor autorExistente = autorRepository.findById(idAutor)
                     .orElseThrow(()-> new IllegalArgumentException("Autor no encontrado: " + idAutor));
@@ -363,8 +361,8 @@ public class FormularioLibros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtEdicion;
     private javax.swing.JTextField txtEditorial;
     private javax.swing.JFormattedTextField txtIdAutor;
     private javax.swing.JTextField txtTitulo;
