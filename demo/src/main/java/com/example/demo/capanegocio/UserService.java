@@ -97,5 +97,21 @@ public class UserService {
     } else {
         throw new RuntimeException("El id de usuario " + idUsuario + " no se encuentra");
     }
-}
+    }
+    
+    public void eliminarUsuario(Long idUsuario){
+        usuarioRepository.deleteById(idUsuario);
+    }
+    
+    
+    public Usuario obtenerUsuarioPorId(Long idUsuario){
+        return usuarioRepository.findById(idUsuario).orElseThrow(() -> new IllegalArgumentException("Sucursal no encontrada con ID: " + idUsuario));
+                
+    }
+    
+    
+    public boolean obtenerPermisoUsuario(Usuario usuario){
+        return usuario.getPermisosPrestamo();
+                
+    }
 }

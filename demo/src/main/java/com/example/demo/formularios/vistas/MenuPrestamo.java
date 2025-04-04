@@ -27,6 +27,9 @@ public class MenuPrestamo extends javax.swing.JFrame {
      * Creates new form MenuPrestamo
      */
     
+    /*@Autowired
+    private MenuUsuario usuario;*/
+    
     @Autowired 
     private ApplicationContext context;
     
@@ -97,12 +100,13 @@ public class MenuPrestamo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(122, 122, 122)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(jButtonIrAMenuUsuario)
                         .addGap(21, 21, 21))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonIrAConsulta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                        .addGap(47, 47, 47)
                         .addComponent(jButtonCrearPrestamo)
                         .addGap(70, 70, 70))))
         );
@@ -125,12 +129,14 @@ public class MenuPrestamo extends javax.swing.JFrame {
 
     private void jButtonIrAMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAMenuUsuarioActionPerformed
         MenuUsuario menuUsuario = context.getBean(MenuUsuario.class);
+        menuUsuario.pasarId(idUsuario);
+        System.out.println("Id en MenuPrestamo  antes de regresar a MenuUsuario" + idUsuario);
         menuUsuario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrAMenuUsuarioActionPerformed
 
     private void jButtonIrAConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAConsultaActionPerformed
-        System.out.println(prestamoService.recuperaPrestamosPorUsuario(idUsuario));
+        JOptionPane.showMessageDialog(this,prestamoService.recuperaPrestamosPorUsuario(idUsuario));
         
         
         /*TablaPrestamos prestamos=new TablaPrestamos();
@@ -140,13 +146,20 @@ public class MenuPrestamo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonIrAConsultaActionPerformed
 
     private void jButtonCrearPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearPrestamoActionPerformed
-        int numero = prestamoService.numeroPrestamos(idUsuario);
+       CrearPrestamo prestamo=context.getBean(CrearPrestamo.class);
+       prestamo.pasarid(idUsuario);
+       try{
+           prestamoService.revisaCondiciones(idUsuario);
+           prestamo.setVisible(true);
+           this.dispose();
+           
+       }catch(IllegalStateException i){
+           JOptionPane.showMessageDialog(this, i.getMessage());
+           
+           
+       }
         
-        if (numero < 2){
-            JOptionPane.showMessageDialog(this,"Siguiente vista");
-        }else {
-            JOptionPane.showMessageDialog(this,"Número máximo de préstamos alcanzado");
-        }
+       
            
     }//GEN-LAST:event_jButtonCrearPrestamoActionPerformed
 
