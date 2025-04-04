@@ -155,7 +155,7 @@ public class DemoApplication {
  
  //System.out.println(prestamoService.registrarDevolucion(14)); 
  
-System.out.println(libroService.agregaLibro("Prueba", "prueba2", 2014, 4L));
+//System.out.println(libroService.agregaLibro("Prueba", "prueba2", 2014, 4L));
   
     
       }
