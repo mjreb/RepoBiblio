@@ -151,10 +151,10 @@ public class FormularioDevolucion extends javax.swing.JFrame {
             prestamoService.registrarDevolucion(idPrestamo, idUsuario);
             JOptionPane.showMessageDialog(this, "Devolucion exitosa");
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Ingrese un ID de libro válido.");
+            JOptionPane.showMessageDialog(this, "Ingrese un ID de libro válido.","Error",JOptionPane.ERROR_MESSAGE);
  
         }catch (IllegalArgumentException a){
-            JOptionPane.showMessageDialog(this, a.getMessage());
+            JOptionPane.showMessageDialog(this, a.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
         }
         
         /*

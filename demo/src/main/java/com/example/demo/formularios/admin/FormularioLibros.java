@@ -102,6 +102,7 @@ public class FormularioLibros extends javax.swing.JFrame {
                 correoService.sendCorreo(usuario.getCorreo(), subject, content, null);
             } catch (Exception e) {
             // Manejar errores individualmente, por ejemplo, loguear el error
+                JOptionPane.showMessageDialog(this, "Error al enviar correo a "+usuario.getCorreo(),"Error", JOptionPane.ERROR_MESSAGE);
                 System.err.println("Error al enviar correo a " + usuario.getCorreo() + ": " + e.getMessage());
             }
         }
@@ -280,12 +281,14 @@ public class FormularioLibros extends javax.swing.JFrame {
     }//GEN-LAST:event_VolverActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
-        String titulo=txtTitulo.getText();
-        String editorial=txtEditorial.getText();
-        int cantidad = Integer.parseInt(txtCantidad.getText());
-        int anio = Integer.parseInt(txtEdicion.getText());
+        
+        
         
         try{
+            String titulo=txtTitulo.getText();
+            String editorial=txtEditorial.getText();
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            int anio = Integer.parseInt(txtEdicion.getText());
             long idAutor = Long.parseLong(txtIdAutor.getText());
             Autor autorExistente = autorRepository.findById(idAutor)
                     .orElseThrow(()-> new IllegalArgumentException("Autor no encontrado: " + idAutor));
@@ -296,9 +299,10 @@ public class FormularioLibros extends javax.swing.JFrame {
             MenuAdmin mAd=context.getBean(MenuAdmin.class);
             mAd.setVisible(true);
             this.dispose();
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Error al guardar libro :c");
-        }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al introducir datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            
+}
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed

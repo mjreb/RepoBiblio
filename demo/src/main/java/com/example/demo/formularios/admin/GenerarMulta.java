@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import java.io.File;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -335,7 +336,7 @@ public class GenerarMulta extends javax.swing.JFrame {
             
             javax.swing.JOptionPane.showMessageDialog(this, "PDF generado exitosamente: "+ fileName);
         } catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al generar PDF: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al generar PDF: " , "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally{
             document.close();
@@ -349,7 +350,7 @@ public class GenerarMulta extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Correo enviado a: " + userCorreo);
             
         }catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al enviar correo: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al enviar correo: " , "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
         

@@ -149,14 +149,15 @@ public class CrearPrestamo extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldIDLibroActionPerformed
 
     private void jButtonSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolicitarActionPerformed
-        int idLibro=Integer.parseInt(jTextFieldIDLibro.getText());
-        String nombreSucursal=jTextFieldNombreSucursal.getText();
-        MenuPrestamo menuPrestamo=context.getBean(MenuPrestamo.class);
+        
         
         /*prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
         JOptionPane.showMessageDialog(this, "Prestamo generado");
         */
         try{
+            int idLibro=Integer.parseInt(jTextFieldIDLibro.getText());
+            String nombreSucursal=jTextFieldNombreSucursal.getText();
+            MenuPrestamo menuPrestamo=context.getBean(MenuPrestamo.class);
             prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
             JOptionPane.showMessageDialog(this, "Prestamo generado");
             jTextFieldIDLibro.setText("");
@@ -165,7 +166,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
             menuPrestamo.setVisible(true);
             this.dispose();
         }catch(IllegalArgumentException e){
-            JOptionPane.showMessageDialog(this, "El libro no existe");
+            JOptionPane.showMessageDialog(this, "El libro no existe","Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonSolicitarActionPerformed
 
