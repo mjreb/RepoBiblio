@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
 public class MenuUsuario extends javax.swing.JFrame {
     
         
+    /*@Autowired
+    private MenuPrestamo prestamo;*/
+    
     @Autowired
     private ApplicationContext context;
     
@@ -57,7 +60,6 @@ public class MenuUsuario extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButtonIrAPrestamos = new javax.swing.JButton();
         jButtonIrADevoluciones = new javax.swing.JButton();
-        jButtonIrAConsulta = new javax.swing.JButton();
         jButtonIrAAservo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -78,13 +80,6 @@ public class MenuUsuario extends javax.swing.JFrame {
             }
         });
 
-        jButtonIrAConsulta.setText("Consulta");
-        jButtonIrAConsulta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonIrAConsultaActionPerformed(evt);
-            }
-        });
-
         jButtonIrAAservo.setText("Aservo de otras sucursales");
         jButtonIrAAservo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,21 +92,20 @@ public class MenuUsuario extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(146, 146, 146)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jButtonIrAPrestamos)
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonIrADevoluciones)
-                                .addGap(36, 36, 36)
-                                .addComponent(jButtonIrAConsulta))
-                            .addComponent(jLabel1)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(114, 114, 114)
-                        .addComponent(jButtonIrAAservo)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addComponent(jButtonIrAAservo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jButtonIrAPrestamos)
+                        .addGap(56, 56, 56)
+                        .addComponent(jButtonIrADevoluciones)))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,8 +115,7 @@ public class MenuUsuario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonIrAPrestamos)
-                    .addComponent(jButtonIrADevoluciones)
-                    .addComponent(jButtonIrAConsulta))
+                    .addComponent(jButtonIrADevoluciones))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonIrAAservo)
                 .addContainerGap(19, Short.MAX_VALUE))
@@ -150,10 +143,6 @@ public class MenuUsuario extends javax.swing.JFrame {
     private void jButtonIrAAservoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAAservoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonIrAAservoActionPerformed
-
-    private void jButtonIrAConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAConsultaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonIrAConsultaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,7 +181,6 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonIrAAservo;
-    private javax.swing.JButton jButtonIrAConsulta;
     private javax.swing.JButton jButtonIrADevoluciones;
     private javax.swing.JButton jButtonIrAPrestamos;
     private javax.swing.JLabel jLabel1;

@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,12 @@ public class FormularioDevolucion extends javax.swing.JFrame {
     
     @Autowired
     private PrestamoService prestamoService;
+    
+    @Autowired
+    private ApplicationContext context;
+    
+    /*@Autowired
+    private MenuUsuario usuario;*/
     
 
     /**
@@ -187,8 +194,8 @@ public class FormularioDevolucion extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDevolverActionPerformed
 
     private void jButtonIrAMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAMenuUsuarioActionPerformed
+        MenuUsuario menuUsuario=context.getBean(MenuUsuario.class);
         menuUsuario.pasarId(idUsuario);
-         System.out.println("Id en Devolucion  antes de regresar a MenuUsuario" + idUsuario);
         menuUsuario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrAMenuUsuarioActionPerformed

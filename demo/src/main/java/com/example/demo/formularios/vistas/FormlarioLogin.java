@@ -178,7 +178,7 @@ public class FormlarioLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtContrasenaActionPerformed
 
     private void jButtonIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIniciarSesionActionPerformed
-        
+        MenuUsuario menuUsuario=context.getBean(MenuUsuario.class);
         String correoIngresado=txtCorreo.getText();
         String contrasenaIngresada=new String(txtContrasena.getPassword());
         Usuario user = userService.autenticar(correoIngresado, contrasenaIngresada);
@@ -191,9 +191,9 @@ public class FormlarioLogin extends javax.swing.JFrame {
                 
                 case 0: 
                      JOptionPane.showMessageDialog(this, "Sesion iniciada");
-                     usuario.pasarId(id);
+                     menuUsuario.pasarId(id);
                      System.out.println("Id en login antes de pasar a MenuUsuario" + idUsuario);
-                     usuario.setVisible(true);
+                     menuUsuario.setVisible(true);
                      this.dispose();
                      break;
                      
