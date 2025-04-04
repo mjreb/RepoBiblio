@@ -71,7 +71,8 @@ public class DemoApplication {
     
 	public static void main(String[] args) {
         
-        SpringApplication app = new SpringApplication(DemoApplication.class);
+            SpringApplication app = new SpringApplication(DemoApplication.class);
+
         
         
         app.setHeadless(false);  // Desactiva modo headless
@@ -154,7 +155,7 @@ public class DemoApplication {
  
  //System.out.println(prestamoService.registrarDevolucion(14)); 
  
-
+System.out.println(libroService.agregaLibro("Prueba", "prueba2", 2014, 4L));
   
     
       }

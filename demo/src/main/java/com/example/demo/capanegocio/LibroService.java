@@ -9,6 +9,7 @@ import com.example.demo.capanegocio.modelo.Inventario;
 import com.example.demo.capanegocio.modelo.ItemInventario;
 import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Sucursal;
+import com.example.demo.capapersistencia.AutorRepository;
 import com.example.demo.capapersistencia.LibroRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,9 @@ public class LibroService {
     
      @Autowired
     private ItemInventarioService itemInventarioService;
+     
+       @Autowired
+    private AutorRepository autorRepository;
     
 
     /**
@@ -61,13 +65,17 @@ public class LibroService {
      * @param titulo     Título del libro.
      * @param editorial  Editorial del libro.
      * @param anio       Año de publicación del libro.
+     * @param idAutor
      * @param cantidad   Cantidad de ejemplares disponibles.
      * @param autor      Autor del libro.
      * @return El libro creado.
      * @throws IllegalArgumentException Si ya existe un libro con el mismo título.
      */
-    public Libro agregaLibro(String titulo, String editorial, int anio, int cantidad, Autor autor) {
+    public Libro agregaLibro(String titulo, String editorial, int anio, long idAutor) {
         // Verifica si ya existe un libro con el mismo título
+        
+        Autor autor = autorRepository.findById(idAutor).orElseThrow(() -> new RuntimeException("Autor no encontrado con ID: " + idAutor));
+ 
         Libro libroExistente = libroRepository.findByTitulo(titulo);
 
         if (libroExistente != null) {

@@ -87,7 +87,7 @@ public class FormularioLibros extends javax.swing.JFrame {
         txtEditorial = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
         txtEdicion = new javax.swing.JTextField();
-        txtAutor = new javax.swing.JTextField();
+        txtIdAutor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,7 +140,7 @@ public class FormularioLibros extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtEdicion, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAutor, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtIdAutor, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEditorial)
                             .addComponent(txtCantidad)))
@@ -183,7 +183,7 @@ public class FormularioLibros extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(Guardar)
                 .addContainerGap())
@@ -220,11 +220,10 @@ public class FormularioLibros extends javax.swing.JFrame {
         int cantidad = Integer.parseInt(txtCantidad.getText());
         int anio = Integer.parseInt(txtEdicion.getText());
         
-        Autor autor =new Autor();
-        autor.setNombre(txtAutor.getText());
+        long idAutor = Integer.parseInt(txtIdAutor.getText());
 
         try{
-            libroService.agregaLibro(titulo, editorial, cantidad, anio, autor);
+            libroService.agregaLibro(titulo, editorial, anio, idAutor);
             JOptionPane.showMessageDialog(this, "Libro guardado exitosamente");
             notificarUsuariosNuevoLibro(titulo);
             MenuAdmin mAd=context.getBean(MenuAdmin.class);
@@ -283,10 +282,10 @@ public class FormularioLibros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtEdicion;
     private javax.swing.JTextField txtEditorial;
+    private javax.swing.JTextField txtIdAutor;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
