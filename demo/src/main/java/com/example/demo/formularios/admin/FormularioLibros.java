@@ -87,21 +87,26 @@ public class FormularioLibros extends javax.swing.JFrame {
     
     private void notificarUsuariosNuevoLibro(String tituloLibro){
         List<Usuario> usuarios = userService.recuperaUsuarios();
-    String subject = "Nuevo libro disponible: " + tituloLibro;
-    String content = "Estimado usuario,\n\n"
+
+        String subject = "Nuevo libro disponible: " + tituloLibro;
+        String content = "Estimado usuario,\n\n"
+
                    + "Nos complace informarte que se ha agregado un nuevo libro a la biblioteca: " + tituloLibro + ".\n"
                    + "¡Visita nuestro portal para más detalles!\n\n"
                    + "Saludos,\nBiblioteca Guam";
     
-    for(Usuario usuario : usuarios) {
-        try {
-            correoService.sendCorreo(usuario.getCorreo(), subject, content);
-        } catch (Exception e) {
+
+
+        for(Usuario usuario : usuarios) {
+            try {
+                correoService.sendCorreo(usuario.getCorreo(), subject, content, null);
+            } catch (Exception e) {
             // Manejar errores individualmente, por ejemplo, loguear el error
-            System.err.println("Error al enviar correo a " + usuario.getCorreo() + ": " + e.getMessage());
+                System.err.println("Error al enviar correo a " + usuario.getCorreo() + ": " + e.getMessage());
+            }
         }
     }
-}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
