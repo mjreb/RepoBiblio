@@ -68,7 +68,6 @@ public class PrestamoService {
      * @param idLibro
      * @param idUsuario
      * @param nombreSucursal
-     * @param idSucursal
      * @return 
      */
     //@Transactional
@@ -159,15 +158,6 @@ public class PrestamoService {
     }
     
     
- 
-    
-    public int numeroPrestamos(long id){
-        
-        List<Prestamo> prestamos = ( ArrayList<Prestamo>)prestamoRepository.findByUsuarioIdUsuario(id);
-        
-        return prestamos.size();
-    }
-    
 public void revisaCondiciones(long idUsuario) {
     //boolean flag = false; 
     
@@ -222,9 +212,6 @@ public void revisaCondiciones(long idUsuario) {
         return prestamosFiltrados; 
     }
     
-    
-    
-
-    
+ 
     
 }
