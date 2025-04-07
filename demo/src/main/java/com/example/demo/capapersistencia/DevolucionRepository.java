@@ -20,7 +20,7 @@ public interface DevolucionRepository extends JpaRepository<Devolucion, Long> {
     public boolean existsByPrestamo(Prestamo prestamo);
 
     public Object findByIdDevolucion(int idDevolucion);
-    public List<Devolucion> findByFechaInicioGreaterThanEqual(LocalDate fecha);
+    public List<Devolucion> findByFechaDevolucionGreaterThanEqual(LocalDate fecha);
 
     
     
