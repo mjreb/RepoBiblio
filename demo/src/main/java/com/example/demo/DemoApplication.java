@@ -11,6 +11,7 @@ import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Prestamo;
 import com.example.demo.capanegocio.modelo.Usuario;
 import com.example.demo.capapersistencia.UsuarioRepository;
+import com.example.demo.formularios.controlador.ControladorInicio;
 import com.example.demo.formularios.vistas.FormlarioLogin;
 import com.example.demo.formularios.vistas.FormularioRegistro;
 import jakarta.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -27,7 +29,7 @@ import static org.springframework.web.server.adapter.WebHttpHandlerBuilder.appli
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.example.demo"})
-public class DemoApplication {
+public class DemoApplication{
 
     /*
     @Autowired
@@ -57,26 +59,31 @@ public class DemoApplication {
      @Autowired
     private SucursalSevice sucursalService;
      
-     @Autowired
-    private PrestamoService prestamoService;
-/*
-    
-    
-    
-     
-    
-    */
-     
-    
-    
-	public static void main(String[] args) {
-        
-            SpringApplication app = new SpringApplication(DemoApplication.class);
 
-        
-        
-        app.setHeadless(false);  // Desactiva modo headless
-        ApplicationContext context = app.run(args);
+	public static void main(String[] args) {
+            
+            SpringApplication app = new SpringApplication(DemoApplication.class);
+            app.setHeadless(false);
+
+            // Iniciar la app y obtener el contexto
+            ApplicationContext context = app.run(args);
+
+            // Obtener el bean y usarlo
+            ControladorInicio controlador = context.getBean(ControladorInicio.class);
+            controlador.inicia();
+            /*
+            
+            // Crear la aplicación Spring Boot y configurarla para no ser headless
+            SpringApplication app = new SpringApplication(DemoApplication.class);
+            app.setHeadless(false);  // Desactiva el modo headless
+
+            // Iniciar la aplicación
+            app.run(args);
+            inicia();
+            
+            */
+        /*
+            
         
         //Obtener el bean y hacerlo visible
         
@@ -85,16 +92,14 @@ public class DemoApplication {
         loginForm.setVisible(true);
        
      
-      
-         SpringApplication.run(DemoApplication.class, args);
+      */
          
          
-         //UserService userService = context.getBean(UserService.class);
-         
-         
-
-         
+ 
      }
+        
+        
+   
         
        @PostConstruct
       public void testDB(){
@@ -157,6 +162,8 @@ public class DemoApplication {
  
 //System.out.println(libroService.agregaLibro("Prueba", "prueba2", 2014, 4L));
   
+//System.out.println(prestamoService.recuperaPrestamosAcumuladoresDeMulta());
+
     
       }
 }

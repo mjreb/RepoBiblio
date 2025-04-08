@@ -212,6 +212,12 @@ public void revisaCondiciones(long idUsuario) {
         return prestamosFiltrados; 
     }
     
+    public List<Prestamo> recuperaPrestamosAcumuladoresDeMulta(){
+        
+        return prestamoRepository.findByFechaLimiteLessThanEqualAndFechaDevolucionIsNull(LocalDate.now());
+        
+    }
+    
  
     
 }
