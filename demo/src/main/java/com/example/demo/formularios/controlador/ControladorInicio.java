@@ -12,10 +12,12 @@ import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Prestamo;
 import com.example.demo.capanegocio.modelo.Sucursal;
 import com.example.demo.formularios.vistas.FormlarioLogin;
+import com.example.demo.formularios.vistas.MenuUsuario;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -33,12 +35,16 @@ public class ControladorInicio {
       @Autowired
     private CorreoService correoService; 
       @Autowired
-    private FormlarioLogin loginForm;
+    private ApplicationContext context;
+     
     
     
     public void inicia(){
         mandaNotificacionesMulta();
+        FormlarioLogin loginForm =context.getBean(FormlarioLogin.class);
+       
         loginForm.setVisible(true);
+         
         
     }
     
