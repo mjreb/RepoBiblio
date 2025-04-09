@@ -8,6 +8,7 @@ import com.example.demo.capanegocio.modelo.Prestamo;
 import com.example.demo.capanegocio.modelo.Usuario;
 import com.example.demo.capapersistencia.PrestamoRepository;
 import com.example.demo.capapersistencia.UsuarioRepository;
+import static java.sql.JDBCType.NULL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -103,6 +104,7 @@ public class UserService {
         usuarioRepository.deleteById(idUsuario);
     }
     
+
     
     public Usuario obtenerUsuarioPorId(Long idUsuario){
         return usuarioRepository.findById(idUsuario).orElseThrow(() -> new IllegalArgumentException("Sucursal no encontrada con ID: " + idUsuario));
@@ -114,4 +116,14 @@ public class UserService {
         return usuario.getPermisosPrestamo();
                 
     }
+
+
+    public ArrayList<Usuario> recuperaUsuariosPorFecha(LocalDate fechaHaceUnMes) {
+        ArrayList<Usuario> Usuarios = (ArrayList<Usuario>)usuarioRepository.findByUltimoAccesoGreaterThanEqual(fechaHaceUnMes);
+        if(Usuarios.isEmpty()) {
+            throw new UnsupportedOperationException("No se encontraron usuarios");
+        } else {
+            return Usuarios;
+        }
+    }        
 }
