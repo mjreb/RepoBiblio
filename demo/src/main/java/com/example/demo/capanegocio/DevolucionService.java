@@ -64,41 +64,12 @@ public class DevolucionService {
      */
     
 
-<<<<<<< HEAD
-=======
-        if ("PAGADO".equals(devolucion.getEstado())) {
-            throw new IllegalStateException("La multa ya fue pagada anteriormente");
-        }
 
-        // Actualizar tanto la devolución como el préstamo asociado
-        devolucion.setEstado("PAGADO");
-        if (devolucion.getPrestamo() != null) {
-            devolucion.getPrestamo().setMultaPagada(true);
-            prestamoRepository.save(devolucion.getPrestamo());
-        }
-
-        return devolucionRepository.save(devolucion);
-}
-
-    /**
-     * Obtiene la multa pendiente para una devolución.
-     * @param idDevolucion
-     */
-    public double consultarMultaPendiente(int idDevolucion) {
-        
-        Devolucion optionalDevolucion = (Devolucion) devolucionRepository.findByIdDevolucion(idDevolucion);
-    
-    /*if (optionalDevolucion =) {
-        throw new IllegalArgumentException("No existe devolución con ID: " + idDevolucion);
-    }*/
-    
-        return "PAGADO".equals(optionalDevolucion.getEstado()) ? 0.0 : optionalDevolucion.getMulta();
-    }
     
     public ArrayList<Devolucion> recuperaDevolucionesPorfecha(LocalDate fecha) {
         ArrayList<Devolucion> devolucion = (ArrayList<Devolucion>)devolucionRepository.findByFechaDevolucionGreaterThanEqual(fecha);
 
         return devolucion; 
     }
->>>>>>> ReporteUsuario
+
 }
