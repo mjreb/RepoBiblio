@@ -104,16 +104,16 @@ public class DemoApplication {
         Usuario usuario1 = userService.agregaUsuario("Juan", "Pérez", "Gómez", "juan@example.com", 1234567890L, "password1", LocalDate.now());
         Usuario usuario2 = userService.agregaUsuario("María", "López", "Martínez", "maria@example.com", 9876543210L, "password2", LocalDate.now());
         Usuario usuario3 = userService.agregaUsuario("Carlos", "García", "Sánchez", "carlos@example.com", 2281463024L, "password3", LocalDate.now());
-         
+        */ 
 
         /* 
         Usuario usuario1 = userService.agregaUsuario("Juan", "Pérez", "Gómez", "juan@example.com", 1234567890L, "password1", LocalDate.now());
         Usuario usuario2 = userService.agregaUsuario("María", "López", "Martínez", "maria@example.com", 9876543210L, "password2", LocalDate.now());
         Usuario usuario3 = userService.agregaUsuario("Carlos", "García", "Sánchez", "carlos@example.com", 2281463024L, "password3", LocalDate.now());
-        
+        */
 
          // Agregar autores
-         
+        /*
         Autor autor1 = autorService.agregaAutor("Gabriel García Márquez", "Colombiano");
         Autor autor2 = autorService.agregaAutor("J.K. Rowling", "Británica");
         Autor autor3 = autorService.agregaAutor("George Orwell", "Británico");
@@ -121,12 +121,12 @@ public class DemoApplication {
         
         // Agregar libros (2 por autor)
         
-        Libro libro1 = libroService.agregaLibro("Cien años de soledad", "Sudamericana", 1967, 10, autor1);
-        Libro libro2 = libroService.agregaLibro("El amor en los tiempos del cólera", "Sudamericana", 1985, 5, autor1);
-        Libro libro3 = libroService.agregaLibro("Harry Potter y la piedra filosofal", "Salamandra", 1997, 15, autor2);
-        Libro libro4 = libroService.agregaLibro("Harry Potter y la cámara secreta", "Salamandra", 1998, 12, autor2);
-        Libro libro5 = libroService.agregaLibro("1984", "Debolsillo", 1949, 8, autor3);
-        Libro libro6 = libroService.agregaLibro("Rebelión en la granja", "Debolsillo", 1945, 7, autor3);
+        Libro libro1 = libroService.agregaLibro("Cien años de soledad", "Sudamericana", 1967, 1L);
+        Libro libro2 = libroService.agregaLibro("El amor en los tiempos del cólera", "Sudamericana", 1985, 2L);
+        Libro libro3 = libroService.agregaLibro("Harry Potter y la piedra filosofal", "Salamandra", 1997, 1L);
+        Libro libro4 = libroService.agregaLibro("Harry Potter y la cámara secreta", "Salamandra", 1998, 2L);
+        Libro libro5 = libroService.agregaLibro("1984", "Debolsillo", 1949, 3L);
+        Libro libro6 = libroService.agregaLibro("Rebelión en la granja", "Debolsillo", 1945, 3L);
         
         
           
@@ -158,13 +158,13 @@ public class DemoApplication {
     System.out.println(prestamoService.creaPrestamo(1 , 3L,"Zocalo")); // Libro ID: 4, Usuario ID: 2
 
     System.out.println(prestamoService.recuperaPrestamosPorUsuario(3L)); 
-    */
+    
  //
- 
+ */
  //System.out.println(prestamoService.registrarDevolucion(14)); 
- 
+ /*
 //System.out.println(libroService.agregaLibro("Prueba", "prueba2", 2014, 4L));
   
-    
+    */
       }
 }
