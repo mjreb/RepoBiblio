@@ -4,8 +4,11 @@
  */
 package com.example.demo.formularios.vistas;
 
+import com.example.demo.capanegocio.LibroService;
 import com.example.demo.capanegocio.PrestamoService;
 import com.example.demo.capanegocio.UserService;
+import com.example.demo.capanegocio.modelo.Libro;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -32,6 +35,9 @@ public class CrearPrestamo extends javax.swing.JFrame {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private LibroService libroService;
+    
     /*@Autowired
     private MenuPrestamo prestamo;*/
     
@@ -42,11 +48,79 @@ public class CrearPrestamo extends javax.swing.JFrame {
      */
     public CrearPrestamo() {
         initComponents();
+        initAdditionalComponents();
+        cargarSugerencias(); 
     }
+    
+    private void cargarSugerencias() {
+    // Obtener libros sugeridos
+    ArrayList<Libro> librosSugeridos = libroService.recuperaLibros();
+    
+    // Crear modelo de tabla
+    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTableSugerencias.getModel();
+    model.setRowCount(0); // Limpiar tabla
+    
+    // Llenar tabla con datos
+    for (Libro libro : librosSugeridos) {
+        model.addRow(new Object[]{
+            libro.getIdLibro(),
+            libro.getTitulo(),
+            libro.getAutor() != null ? libro.getAutor().getNombre() : "Desconocido",
+            "Disponible" 
+        });
+    }
+}
 
     public void pasarid(long id){
        this.idUsuario = id; 
   }
+    
+    private void initAdditionalComponents() {
+    // Crear el JScrollPane y JTable
+    jScrollPaneSugerencias = new javax.swing.JScrollPane();
+    jTableSugerencias = new javax.swing.JTable();
+    
+    // Configurar la tabla de sugerencias
+    jTableSugerencias.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {},
+        new String [] {"ID", "Título", "Autor", "Disponibles"}
+    ));
+    jScrollPaneSugerencias.setViewportView(jTableSugerencias);
+    
+    // Agregar el JScrollPane al JFrame manualmente
+    getContentPane().add(jScrollPaneSugerencias, java.awt.BorderLayout.CENTER);
+    
+    // Listener para selección de libros
+    jTableSugerencias.getSelectionModel().addListSelectionListener(event -> {
+        if (!event.getValueIsAdjusting()) {
+            int row = jTableSugerencias.getSelectedRow();
+            if (row >= 0) {
+                String idLibro = jTableSugerencias.getValueAt(row, 0).toString();
+                jTextFieldIDLibro.setText(idLibro);
+            }
+        }
+    });
+    
+    // Listener para doble clic 
+    jTableSugerencias.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            if (evt.getClickCount() == 2) { // Verifica doble clic
+                int row = jTableSugerencias.rowAtPoint(evt.getPoint());
+                if (row >= 0) { // Asegura que se hizo clic en una fila válida
+                    String idLibro = jTableSugerencias.getValueAt(row, 0).toString();
+                    jTextFieldIDLibro.setText(idLibro);
+                    
+                    // Opcional: Poner foco en el campo de sucursal después de seleccionar
+                    jTextFieldNombreSucursal.requestFocusInWindow();
+                }
+            }
+        }
+    });
+    
+    // Ajustar el layout existente
+    pack();
+}
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,6 +138,9 @@ public class CrearPrestamo extends javax.swing.JFrame {
         jTextFieldNombreSucursal = new javax.swing.JTextField();
         jButtonSolicitar = new javax.swing.JButton();
         jButtonIrMenuPrestamo = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPaneSugerencias = new javax.swing.JScrollPane();
+        jTableSugerencias = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,6 +170,21 @@ public class CrearPrestamo extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Sugerencias");
+
+        jTableSugerencias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPaneSugerencias.setViewportView(jTableSugerencias);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,19 +199,27 @@ public class CrearPrestamo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                         .addComponent(jButtonIrMenuPrestamo)
                         .addGap(13, 13, 13))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonSolicitar)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextFieldNombreSucursal))))
+                                .addComponent(jLabel3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jButtonSolicitar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jTextFieldNombreSucursal))))
+                            .addComponent(jLabel4))))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPaneSugerencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +238,11 @@ public class CrearPrestamo extends javax.swing.JFrame {
                     .addComponent(jTextFieldNombreSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonSolicitar)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneSugerencias, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -219,6 +323,9 @@ public class CrearPrestamo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPaneSugerencias;
+    private javax.swing.JTable jTableSugerencias;
     private javax.swing.JTextField jTextFieldIDLibro;
     private javax.swing.JTextField jTextFieldNombreSucursal;
     // End of variables declaration//GEN-END:variables
