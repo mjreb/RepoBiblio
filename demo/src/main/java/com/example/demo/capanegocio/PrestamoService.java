@@ -229,7 +229,7 @@ public void revisaCondiciones(long idUsuario) {
         if(prestamos.isEmpty()){
             throw new UnsupportedOperationException("No se encontraron usuarios");
         }else{
-            return prestamos;// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            return prestamos;
         }
     }
     
