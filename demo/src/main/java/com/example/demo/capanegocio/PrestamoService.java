@@ -224,4 +224,13 @@ public void revisaCondiciones(long idUsuario) {
         
     }
     
+    public ArrayList<Prestamo> recuperaUsuariosPorFecha(LocalDate fechaLocalDate) {
+        ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocalDate);
+        if(prestamos.isEmpty()){
+            throw new UnsupportedOperationException("No se encontraron usuarios");
+        }else{
+            return prestamos;// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+    }
+    
 }
