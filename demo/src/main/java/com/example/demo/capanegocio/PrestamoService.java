@@ -212,6 +212,12 @@ public void revisaCondiciones(long idUsuario) {
         return prestamosFiltrados; 
     }
     
+    /**
+     * Método que llama a prestamoRepository para obtener los prestamos en los que su fecha 
+     * límite de devolución sea posterior a la fecha actual, además de que su fecha de devolución
+     * sea null
+     * @return 
+     */
     public List<Prestamo> recuperaPrestamosAcumuladoresDeMulta(){
         
         return prestamoRepository.findByFechaLimiteLessThanEqualAndFechaDevolucionIsNull(LocalDate.now());
