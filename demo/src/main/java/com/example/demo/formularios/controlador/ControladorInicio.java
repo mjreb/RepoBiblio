@@ -30,23 +30,31 @@ public class ControladorInicio {
     private PrestamoService prestamoService;
     @Autowired
     private LibroService libroService;
-     @Autowired
+    @Autowired
     private SucursalSevice sucursalService;
-      @Autowired
+    @Autowired
     private CorreoService correoService; 
-      @Autowired
+    @Autowired
     private ApplicationContext context;
      
-    
-    
+/**
+ * Inicia la aplicación enviando primero las notificaciones de multa a los usuarios
+ * y luego mostrando el formulario de inicio de sesión.
+ */     
+
     public void inicia(){
         mandaNotificacionesMulta();
         FormlarioLogin loginForm =context.getBean(FormlarioLogin.class);
-       
-        loginForm.setVisible(true);
-         
-        
+        loginForm.setVisible(true);   
     }
+    
+ /**
+ * Recupera los préstamos con acumulación de multa y calcula el monto correspondiente con prestamoService,
+ * para después enviar una notificación con toda la información del atraso por correo electrónico al usuario 
+ * relacionado con cada préstamo.
+ * 
+ * Si ocurre algún error al enviar un correo, se notifica al administrador del correo electrónico de la biblioteca.
+ */
     
      public void mandaNotificacionesMulta(){
          System.out.println("Se estan enviando los correos");
@@ -76,12 +84,8 @@ public class ControladorInicio {
             } catch (Exception e) {
                 System.out.println( "Error al enviar correo a " + p.getUsuario().getCorreo());
             }
-        
-  
         }
-         
          System.out.println("Se terminaron de enviar los correos");
-   
     }
    
 }
