@@ -218,6 +218,10 @@ public void revisaCondiciones(long idUsuario) {
         
     }
     
- 
+
+    public ArrayList<Prestamo> recuperaPrestamosPorfecha(LocalDate fecha) {
+         ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fecha);
+        return prestamos; 
+    }
     
 }
