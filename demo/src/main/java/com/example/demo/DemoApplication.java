@@ -71,31 +71,6 @@ public class DemoApplication{
             // Obtener el bean y usarlo
             ControladorInicio controlador = context.getBean(ControladorInicio.class);
             controlador.inicia();
-            /*
-            
-            // Crear la aplicación Spring Boot y configurarla para no ser headless
-            SpringApplication app = new SpringApplication(DemoApplication.class);
-            app.setHeadless(false);  // Desactiva el modo headless
-
-            // Iniciar la aplicación
-            app.run(args);
-            inicia();
-            
-            */
-        /*
-            
-        
-        //Obtener el bean y hacerlo visible
-        
-        
-        FormlarioLogin loginForm = context.getBean(FormlarioLogin.class);
-        loginForm.setVisible(true);
-       
-     
-      */
-         
-         
- 
      }
         
         
