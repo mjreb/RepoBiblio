@@ -1,12 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.capanegocio.AutorService;
-import com.example.demo.capanegocio.ItemInventarioService;
-import com.example.demo.capanegocio.LibroService;
-import com.example.demo.capanegocio.SucursalSevice;
-import com.example.demo.capanegocio.UserService;
 import com.example.demo.formularios.controlador.ControladorInicio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
