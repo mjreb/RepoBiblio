@@ -211,8 +211,6 @@ public void revisaCondiciones(long idUsuario) {
   
         return prestamosFiltrados; 
     }
-<<<<<<< HEAD
-=======
     
     /**
      * Método que llama a prestamoRepository para obtener los prestamos en los que su fecha 
@@ -226,19 +224,4 @@ public void revisaCondiciones(long idUsuario) {
         
     }
     
->>>>>>> ad3d2d17c1e6b6afe48f55bd8475a610928648aa
-
-
-    public ArrayList<Prestamo> recuperaUsuariosPorFecha(LocalDate fechaLocalDate) {
-        ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocalDate);
-        if(prestamos.isEmpty()){
-            throw new UnsupportedOperationException("No se encontraron usuarios");
-        }else{
-            return prestamos;// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-    }
-<<<<<<< HEAD
-=======
-    
->>>>>>> ad3d2d17c1e6b6afe48f55bd8475a610928648aa
 }
