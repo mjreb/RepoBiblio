@@ -28,4 +28,6 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Integer> {
     public List<Prestamo> findByMultaAcumuladaGreaterThanAndMultaPagadaFalse(double d);
     
     public List<Prestamo> findByFechaLimiteLessThanEqualAndFechaDevolucionIsNull(LocalDate fecha);
+
+    public List<Prestamo> findByFechaLimite(LocalDate fechaLimite);
 }
