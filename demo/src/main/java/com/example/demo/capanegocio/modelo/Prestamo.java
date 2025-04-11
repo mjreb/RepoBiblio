@@ -99,7 +99,7 @@ public class Prestamo {
         return multaAcumulada;
     }
 
-    public void setMultaAcumulada(double multaAcumulada) {
+    public void setMultaAcumulada(Double multaAcumulada) {
         this.multaAcumulada = multaAcumulada;
     }
 
