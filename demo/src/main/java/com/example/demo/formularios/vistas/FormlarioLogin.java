@@ -212,7 +212,7 @@ public class FormlarioLogin extends javax.swing.JFrame {
             }
            
         }else{
-            JOptionPane.showMessageDialog(this, "Datos incorrectos");
+            JOptionPane.showMessageDialog(this, "Datos incorrectos","Error",JOptionPane.ERROR_MESSAGE);
             
         }
    

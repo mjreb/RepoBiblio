@@ -41,7 +41,9 @@ public class LibroService {
      
        @Autowired
     private AutorRepository autorRepository;
-    
+
+    public LibroService() {
+    }
 
     /**
      * Recupera todos los libros de la base de datos.
@@ -66,8 +68,6 @@ public class LibroService {
      * @param editorial  Editorial del libro.
      * @param anio       Año de publicación del libro.
      * @param idAutor
-     * @param cantidad   Cantidad de ejemplares disponibles.
-     * @param autor      Autor del libro.
      * @return El libro creado.
      * @throws IllegalArgumentException Si ya existe un libro con el mismo título.
      */

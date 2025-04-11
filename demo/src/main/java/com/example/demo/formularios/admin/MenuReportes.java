@@ -44,6 +44,7 @@ public class MenuReportes extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(402, 136));
 
         jLabel1.setText("Generar Reportes");
 
@@ -55,8 +56,18 @@ public class MenuReportes extends javax.swing.JFrame {
         });
 
         jButton1.setText("Reporte usuarios");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Reporte Libros");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -65,7 +76,7 @@ public class MenuReportes extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(48, 48, 48)
+                .addGap(67, 67, 67)
                 .addComponent(Regresar)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -97,6 +108,24 @@ public class MenuReportes extends javax.swing.JFrame {
         mAd.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_RegresarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+       ReporteUsuario RU = context.getBean(ReporteUsuario.class);
+        RU.setVisible(true);
+        this.dispose();// TODO add your handling code here: // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ReportePD PD = context.getBean(ReportePD.class);
+        PD.setVisible(true);
+        this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+
+        
+                                          
+
 
     /**
      * @param args the command line arguments

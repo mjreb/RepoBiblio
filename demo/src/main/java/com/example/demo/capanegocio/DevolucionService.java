@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -62,5 +63,13 @@ public class DevolucionService {
      * @throws IllegalStateException Si la devolución no existe o ya está pagada.
      */
     
+
+
+    
+    public ArrayList<Devolucion> recuperaDevolucionesPorfecha(LocalDate fecha) {
+        ArrayList<Devolucion> devolucion = (ArrayList<Devolucion>)devolucionRepository.findByFechaDevolucionGreaterThanEqual(fecha);
+
+        return devolucion; 
+    }
 
 }

@@ -20,8 +20,12 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Integer> {
     List<Prestamo> findByMultaPagadaFalseAndFechaDevolucionIsNotNullAndMultaAcumuladaGreaterThan(double cantidad);
     
     List<Prestamo> findByUsuarioIdUsuario(long idUsuario);
+    
+    ArrayList<Prestamo> findByFechaPrestamoGreaterThanEqual(LocalDate fecha);
 
     public Object findByIdPrestamo(int idPrestamo);
 
     public List<Prestamo> findByMultaAcumuladaGreaterThanAndMultaPagadaFalse(double d);
+    
+    public List<Prestamo> findByFechaLimiteLessThanEqualAndFechaDevolucionIsNull(LocalDate fecha);
 }

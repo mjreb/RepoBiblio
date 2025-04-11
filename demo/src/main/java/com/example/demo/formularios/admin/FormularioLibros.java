@@ -7,15 +7,30 @@ package com.example.demo.formularios.admin;
 import com.example.demo.capanegocio.LibroService;
 import com.example.demo.capapersistencia.LibroRepository;
 import com.example.demo.capanegocio.modelo.Autor;
+import com.example.demo.capapersistencia.AutorRepository;
+
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import com.example.demo.capanegocio.CorreoService;
+import com.example.demo.capanegocio.InventarioService;
+import com.example.demo.capanegocio.SucursalSevice;
 import com.example.demo.capanegocio.UserService;
+import com.example.demo.capanegocio.ItemInventarioService;
+import com.example.demo.capanegocio.modelo.Inventario;
+import com.example.demo.capanegocio.modelo.Libro;
+import com.example.demo.capanegocio.modelo.Sucursal;
 import com.example.demo.capanegocio.modelo.Usuario;
+import com.example.demo.capapersistencia.InventarioRepository;
+import jakarta.annotation.PostConstruct;
 import java.util.List;
+import javax.swing.JFormattedTextField;
+import javax.swing.text.NumberFormatter;
+import java.text.NumberFormat;
+import java.util.Optional;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -32,7 +47,13 @@ public class FormularioLibros extends javax.swing.JFrame {
     LibroService libroService;
     
     @Autowired
+    AutorRepository autorRepository;
+    
+    @Autowired
     LibroRepository libroRepository;
+    
+    @Autowired
+    InventarioRepository inventarioRepository;
     
     @Autowired
     private ApplicationContext context;
@@ -44,27 +65,65 @@ public class FormularioLibros extends javax.swing.JFrame {
     private UserService userService;
     
     @Autowired
+    private SucursalSevice sucursalSevice;
+    
+    @Autowired
+    private InventarioService inventarioService;
+    
+    @Autowired
+    private ItemInventarioService itemInventarioService;
+    
+    
+    @Autowired
     public FormularioLibros() {
         initComponents();
     }
     
+    @PostConstruct
+    private void cargarSucursales(){
+        List<Sucursal> sucursales = sucursalSevice.obtenerSucursales();
+        DefaultComboBoxModel<String> modelo =new DefaultComboBoxModel<>();
+        for(Sucursal s : sucursales){
+            modelo.addElement(s.getNombre());
+        }
+        cmbSucursal.setModel(modelo);
+    }
+    
+    /*@PostConstruct
+    private void initCustomComponents(){
+        NumberFormat format=NumberFormat.getIntegerInstance();
+        NumberFormatter formatter=new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setAllowsInvalid(false);
+        formatter.setCommitsOnValidEdit(true);
+        ((javax.swing.JFormattedTextField) txtIdAutor).setFormatterFactory(
+        new javax.swing.text.DefaultFormatterFactory(formatter));
+        cargarSucursales();
+    }*/
+    
     private void notificarUsuariosNuevoLibro(String tituloLibro){
         List<Usuario> usuarios = userService.recuperaUsuarios();
-    String subject = "Nuevo libro disponible: " + tituloLibro;
-    String content = "Estimado usuario,\n\n"
+
+        String subject = "Nuevo libro disponible: " + tituloLibro;
+        String content = "Estimado usuario,\n\n"
+
                    + "Nos complace informarte que se ha agregado un nuevo libro a la biblioteca: " + tituloLibro + ".\n"
                    + "¡Visita nuestro portal para más detalles!\n\n"
                    + "Saludos,\nBiblioteca Guam";
     
-    for(Usuario usuario : usuarios) {
-        try {
-            correoService.sendCorreo(usuario.getCorreo(), subject, content);
-        } catch (Exception e) {
+
+
+        for(Usuario usuario : usuarios) {
+            try {
+                correoService.sendCorreo(usuario.getCorreo(), subject, content, null);
+            } catch (Exception e) {
             // Manejar errores individualmente, por ejemplo, loguear el error
-            System.err.println("Error al enviar correo a " + usuario.getCorreo() + ": " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Error al enviar correo a "+usuario.getCorreo(),"Error", JOptionPane.ERROR_MESSAGE);
+                System.err.println("Error al enviar correo a " + usuario.getCorreo() + ": " + e.getMessage());
+            }
         }
     }
-}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,8 +145,10 @@ public class FormularioLibros extends javax.swing.JFrame {
         txtTitulo = new javax.swing.JTextField();
         txtEditorial = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
-        txtEdicion = new javax.swing.JTextField();
-        txtIdAutor = new javax.swing.JTextField();
+        txtAnio = new javax.swing.JTextField();
+        cmbSucursal = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        txtIdAutor = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,7 +158,7 @@ public class FormularioLibros extends javax.swing.JFrame {
 
         jLabel3.setText("Cantidad");
 
-        jLabel4.setText("Edición");
+        jLabel4.setText("Año");
 
         jLabel5.setText("Autor");
 
@@ -123,6 +184,21 @@ public class FormularioLibros extends javax.swing.JFrame {
             }
         });
 
+        cmbSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSucursalActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Sucursal");
+
+        txtIdAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdAutorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,28 +206,30 @@ public class FormularioLibros extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtEdicion, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIdAutor, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEditorial)
-                            .addComponent(txtCantidad)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Guardar)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(80, 80, 80)
-                                .addComponent(Volver)))))
+                                .addComponent(Volver))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbSucursal, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtAnio)
+                            .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                            .addComponent(txtEditorial, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtIdAutor))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -178,13 +256,17 @@ public class FormularioLibros extends javax.swing.JFrame {
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtIdAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(Guardar)
                 .addContainerGap())
         );
@@ -215,28 +297,47 @@ public class FormularioLibros extends javax.swing.JFrame {
     }//GEN-LAST:event_VolverActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
-        String titulo=txtTitulo.getText();
-        String editorial=txtEditorial.getText();
-        int cantidad = Integer.parseInt(txtCantidad.getText());
-        int anio = Integer.parseInt(txtEdicion.getText());
-        
-        long idAutor = Integer.parseInt(txtIdAutor.getText());
-
+  
         try{
-            libroService.agregaLibro(titulo, editorial, anio, idAutor);
+            String titulo=txtTitulo.getText();
+            String editorial=txtEditorial.getText();
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            int anio = Integer.parseInt(txtAnio.getText());
+            long idAutor = Long.parseLong(txtIdAutor.getText());
+            String nombreSuc = (String) cmbSucursal.getSelectedItem();
+            Autor autorExistente = autorRepository.findById(idAutor)
+                    .orElseThrow(()-> new IllegalArgumentException("Autor no encontrado: " + idAutor));
+            
+            //libroService.agregaLibro(titulo, editorial, anio, idAutor);
+            Libro libro =libroService.agregaLibro(titulo, editorial, anio, idAutor);
+            Sucursal sucursal=sucursalSevice.recuperaSucursalPorNombre(nombreSuc);
+            Inventario inventario =inventarioService.recuperarInventarioPorSucursal(sucursal);
+            
+            itemInventarioService.agregarLibro(libro.getIdLibro(), inventario.getIdInventario(), cantidad);
+            
             JOptionPane.showMessageDialog(this, "Libro guardado exitosamente");
             notificarUsuariosNuevoLibro(titulo);
             MenuAdmin mAd=context.getBean(MenuAdmin.class);
             mAd.setVisible(true);
             this.dispose();
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Error al guardar libro :c");
-        }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al introducir datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            
+}
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTituloActionPerformed
+
+    private void cmbSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSucursalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSucursalActionPerformed
+
+    private void txtIdAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdAutorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdAutorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,16 +377,18 @@ public class FormularioLibros extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Guardar;
     private javax.swing.JButton Volver;
+    private javax.swing.JComboBox<String> cmbSucursal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtEdicion;
     private javax.swing.JTextField txtEditorial;
-    private javax.swing.JTextField txtIdAutor;
+    private javax.swing.JFormattedTextField txtIdAutor;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

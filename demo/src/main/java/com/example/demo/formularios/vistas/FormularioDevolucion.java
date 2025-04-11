@@ -9,7 +9,11 @@ package com.example.demo.formularios.vistas;
 
 //import CapaNegocio.ManejadorLibros;
 //import CapaPersistencia.ConexionDB;
+import com.example.demo.capanegocio.CorreoService;
 import com.example.demo.capanegocio.PrestamoService;
+import com.example.demo.capanegocio.UserService;
+import com.example.demo.capanegocio.modelo.Prestamo;
+import com.example.demo.capanegocio.modelo.Usuario;
 import com.example.demo.capapersistencia.PrestamoRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import java.time.LocalDate;
 
 
 /**
@@ -35,6 +40,13 @@ public class FormularioDevolucion extends javax.swing.JFrame {
     
     @Autowired
     private ApplicationContext context;
+    
+    @Autowired
+    private CorreoService correoService;
+    
+    @Autowired
+    private UserService userService;
+    
     
     /*@Autowired
     private MenuUsuario usuario;*/
@@ -144,17 +156,36 @@ public class FormularioDevolucion extends javax.swing.JFrame {
 
     private void jButtonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDevolverActionPerformed
         String numero=txtIDLibro.getText();
-        
+        String fecha = LocalDate.now().toString();
         
          try {
             int idPrestamo = Integer.parseInt(numero);
-            prestamoService.registrarDevolucion(idPrestamo, idUsuario);
+            Prestamo prestamo = prestamoService.registrarDevolucion(idPrestamo, idUsuario);
             JOptionPane.showMessageDialog(this, "Devolucion exitosa");
+            
+             Usuario usuario =userService.obtenerUsuarioPorId(idUsuario);
+             String tituloLibro= prestamo.getLibro().getTitulo();
+             String sucursal =prestamo.getNombreSucursal();
+             String subject = "Confirmación de decolución de libro";    
+             String content =String.format("Estimado Usuario %s %s, \n\n"
+                     + "Se ha registrado correctamente la devolución del libro: \n"
+                     + "ID del prestamo: %d \n"
+                     + "Titulo: %s \n"
+                     + "Sucursal: %s\n"
+                     + "Fecha de devolucion: %s \n\n"
+                     + "Gracias por usar nuestro servicio!!", 
+                     usuario.getNombre(), usuario.getApellidoPat(),idPrestamo,
+                     tituloLibro, sucursal, fecha);
+             correoService.sendCorreo(usuario.getCorreo(), subject, content, null);
+             JOptionPane.showMessageDialog(this, "Correo de devolucion enviado");
+             
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Ingrese un ID de libro válido.");
+            JOptionPane.showMessageDialog(this, "Ingrese un ID de libro válido.","Error",JOptionPane.ERROR_MESSAGE);
  
         }catch (IllegalArgumentException a){
-            JOptionPane.showMessageDialog(this, a.getMessage());
+            JOptionPane.showMessageDialog(this, a.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al procesar la devolucion","Error", JOptionPane.ERROR_MESSAGE);
         }
         
         /*

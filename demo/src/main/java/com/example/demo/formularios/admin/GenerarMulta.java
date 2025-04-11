@@ -4,6 +4,8 @@
  */
 package com.example.demo.formularios.admin;
 
+
+import com.example.demo.capanegocio.CorreoService;
 import com.example.demo.capanegocio.UserService;
 import com.example.demo.capanegocio.modelo.Usuario;
 import com.itextpdf.text.Document;
@@ -18,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import java.io.File;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +36,11 @@ public class GenerarMulta extends javax.swing.JFrame {
     private UserService userService;
     
     @Autowired
+
+    private CorreoService correoService;
+    
+    @Autowired
+
     private ApplicationContext context;
     /**
      * Creates new form GenerarMulta
@@ -294,14 +302,17 @@ public class GenerarMulta extends javax.swing.JFrame {
         String monto = Monto.getText();
         
         Document document = new Document();
+
+        File pdfFile = null;
         try {
             String baseName = "Multa-" + userId;
             String fileName = baseName + ".pdf";
-            File file = new File(fileName);
+            pdfFile = new File(fileName);
             int contador = 1;
-            while (file.exists()){
+            while (pdfFile.exists()){
                 fileName = baseName + "_"+ contador + ".pdf";
-                file = new File(fileName);
+                pdfFile = new File(fileName);
+
                 contador++; 
             }
             
@@ -325,12 +336,25 @@ public class GenerarMulta extends javax.swing.JFrame {
             
             javax.swing.JOptionPane.showMessageDialog(this, "PDF generado exitosamente: "+ fileName);
         } catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al generar PDF: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al generar PDF: " , "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally{
             document.close();
         }
         
+
+        try{
+            String subject ="Multa Generada";
+            String content = "Adjunto encontrará el archivo PDF con los detalles ";
+            correoService.sendCorreo(userCorreo, subject, content, pdfFile);
+            javax.swing.JOptionPane.showMessageDialog(this, "Correo enviado a: " + userCorreo);
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error al enviar correo: " , "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+        
+
     }//GEN-LAST:event_GenerarActionPerformed
 
     private void MontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MontoActionPerformed

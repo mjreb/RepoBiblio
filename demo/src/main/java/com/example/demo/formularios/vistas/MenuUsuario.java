@@ -61,8 +61,10 @@ public class MenuUsuario extends javax.swing.JFrame {
         jButtonIrAPrestamos = new javax.swing.JButton();
         jButtonIrADevoluciones = new javax.swing.JButton();
         jButtonIrAAservo = new javax.swing.JButton();
+        Cerrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(402, 136));
 
         jLabel1.setText("Menu de usuario");
 
@@ -87,38 +89,50 @@ public class MenuUsuario extends javax.swing.JFrame {
             }
         });
 
+        Cerrar.setText("Cerrar Sesión");
+        Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jButtonIrAPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonIrADevoluciones)
+                .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jButtonIrAAservo))
+                        .addGap(154, 154, 154)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addComponent(Cerrar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(jButtonIrAPrestamos)
-                        .addGap(56, 56, 56)
-                        .addComponent(jButtonIrADevoluciones)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                        .addGap(113, 113, 113)
+                        .addComponent(jButtonIrAAservo)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(Cerrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonIrAPrestamos)
-                    .addComponent(jButtonIrADevoluciones))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jButtonIrADevoluciones)
+                    .addComponent(jButtonIrAPrestamos))
+                .addGap(30, 30, 30)
                 .addComponent(jButtonIrAAservo)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,6 +161,12 @@ public class MenuUsuario extends javax.swing.JFrame {
         aservoBiblioteca.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonIrAAservoActionPerformed
+
+    private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
+        FormlarioLogin login=context.getBean(FormlarioLogin.class);
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_CerrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,6 +204,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cerrar;
     private javax.swing.JButton jButtonIrAAservo;
     private javax.swing.JButton jButtonIrADevoluciones;
     private javax.swing.JButton jButtonIrAPrestamos;

@@ -1,100 +1,28 @@
 package com.example.demo;
 
-import com.example.demo.capanegocio.AutorService;
-import com.example.demo.capanegocio.ItemInventarioService;
-import com.example.demo.capanegocio.LibroService;
-import com.example.demo.capanegocio.PrestamoService;
-import com.example.demo.capanegocio.SucursalSevice;
-import com.example.demo.capanegocio.UserService;
-import com.example.demo.capanegocio.modelo.Autor;
-import com.example.demo.capanegocio.modelo.Libro;
-import com.example.demo.capanegocio.modelo.Prestamo;
-import com.example.demo.capanegocio.modelo.Usuario;
-import com.example.demo.capapersistencia.UsuarioRepository;
-import com.example.demo.formularios.vistas.FormlarioLogin;
-import com.example.demo.formularios.vistas.FormularioRegistro;
-import jakarta.annotation.PostConstruct;
-import java.awt.GraphicsEnvironment;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import javax.swing.SwingUtilities;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.formularios.controlador.ControladorInicio;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import static org.springframework.web.server.adapter.WebHttpHandlerBuilder.applicationContext;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.example.demo"})
-public class DemoApplication {
+public class DemoApplication{
 
-    /*
-    @Autowired
-    private UserService userService;
-    
-    @Autowired
-    private AutorService autorService;
-
-    @Autowired
-    private LibroService libroService;
-    
-     
-    */
-    
-    @Autowired
-    private UserService userService;
-    
-    @Autowired
-    private AutorService autorService;
-
-    @Autowired
-    private LibroService libroService;
-    
-     @Autowired
-     private ItemInventarioService item; 
-     
-     @Autowired
-    private SucursalSevice sucursalService;
-     
-     @Autowired
-    private PrestamoService prestamoService;
-/*
-    
-    
-    
-     
-    
-    */
-     
-    
-    
 	public static void main(String[] args) {
-        
+            
             SpringApplication app = new SpringApplication(DemoApplication.class);
+            app.setHeadless(false);
 
-        
-        
-        app.setHeadless(false);  // Desactiva modo headless
-        ApplicationContext context = app.run(args);
-        
-        //Obtener el bean y hacerlo visible
-        
-        
-        FormlarioLogin loginForm = context.getBean(FormlarioLogin.class);
-        loginForm.setVisible(true);
-       
-     
-      
-         SpringApplication.run(DemoApplication.class, args);
-         
-         
-         //UserService userService = context.getBean(UserService.class);
-         
-         
+            // Iniciar la app y obtener el contexto
+            ApplicationContext context = app.run(args);
 
-         
+            // Obtener el bean del controlador y usarlo
+            ControladorInicio controlador = context.getBean(ControladorInicio.class);
+            controlador.inicia();
      }
+
         
        @PostConstruct
       public void testDB(){
@@ -159,4 +87,5 @@ public class DemoApplication {
   
     
       }
+
 }

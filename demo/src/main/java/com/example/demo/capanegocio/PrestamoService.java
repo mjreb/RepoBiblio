@@ -68,7 +68,6 @@ public class PrestamoService {
      * @param idLibro
      * @param idUsuario
      * @param nombreSucursal
-     * @param idSucursal
      * @return 
      */
     //@Transactional
@@ -159,15 +158,6 @@ public class PrestamoService {
     }
     
     
- 
-    
-    public int numeroPrestamos(long id){
-        
-        List<Prestamo> prestamos = ( ArrayList<Prestamo>)prestamoRepository.findByUsuarioIdUsuario(id);
-        
-        return prestamos.size();
-    }
-    
 public void revisaCondiciones(long idUsuario) {
     //boolean flag = false; 
     
@@ -222,9 +212,25 @@ public void revisaCondiciones(long idUsuario) {
         return prestamosFiltrados; 
     }
     
+    /**
+     * Método que llama a prestamoRepository para obtener los prestamos en los que su fecha 
+     * límite de devolución sea posterior a la fecha actual, además de que su fecha de devolución
+     * sea null
+     * @return 
+     */
+    public List<Prestamo> recuperaPrestamosAcumuladoresDeMulta(){
+        
+        return prestamoRepository.findByFechaLimiteLessThanEqualAndFechaDevolucionIsNull(LocalDate.now());
+        
+    }
     
-    
-
-    
+    public ArrayList<Prestamo> recuperaUsuariosPorFecha(LocalDate fechaLocalDate) {
+        ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocalDate);
+        if(prestamos.isEmpty()){
+            throw new UnsupportedOperationException("No se encontraron usuarios");
+        }else{
+            return prestamos;
+        }
+    }
     
 }

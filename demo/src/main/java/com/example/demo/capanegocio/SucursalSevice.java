@@ -82,6 +82,12 @@ public class SucursalSevice {
  
     }
     
+    public List<Sucursal> obtenerSucursales(){
+        List<Sucursal> sucursales = new ArrayList<>();
+        sucursalRepository.findAll().forEach(s -> sucursales.add(s));
+        return sucursales;
+    }
+    
     
      public ArrayList<Sucursal> recuperarSucursales(ArrayList<ItemInventario> items) {
        
@@ -132,6 +138,7 @@ public List<ItemInventario> filtrarItemsDisponibles(List<ItemInventario> items) 
     return items.stream()
             .filter(item -> item.getCantidad() > 0)
             .collect(Collectors.toList());
+    
 }
 
 public List<Sucursal> extraerSucursales(List<ItemInventario> items) {
@@ -142,7 +149,7 @@ public List<Sucursal> extraerSucursales(List<ItemInventario> items) {
             .collect(Collectors.toList());
 } 
     
-    
+
     
 
     
