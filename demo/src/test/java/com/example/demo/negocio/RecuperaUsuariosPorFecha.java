@@ -5,7 +5,10 @@
 package com.example.demo.negocio;
 
 import com.example.demo.capanegocio.PrestamoService;
+import com.example.demo.capanegocio.modelo.Autor;
 import com.example.demo.capanegocio.modelo.Prestamo;
+import com.example.demo.capanegocio.modelo.Sucursal;
+import com.example.demo.capanegocio.modelo.Usuario;
 import com.example.demo.capapersistencia.PrestamoRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,11 +32,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class RecuperaUsuariosPorFecha {
     @Mock
     private PrestamoRepository prestamoRepository;
+    @Mock
+    private Prestamo prestamo;
+    @Mock 
+    private Usuario usuario;
+    @Mock
+    private Autor autor;
+    @Mock
+    private Sucursal sucursal;
+    
+    
+    
     @InjectMocks
     private PrestamoService prestamoService;
     
     private LocalDate fechaLocal = LocalDate.now();
     private List<Prestamo> prestamos = new ArrayList<>();
+   
     
     @Test
     void recuperaUsuariosPorFechaDevuelvePrestamosCuandoExisten(){
