@@ -226,12 +226,13 @@ public void revisaCondiciones(long idUsuario) {
     
     /*
         Método que llama a prestamo repository para obtener una lisat de los prestamos realizados a partir de una fecha indicada
-        por el administrador a la hora de genrar un reporte.
+        por el administrador a la hora de genrar un reporte. Notese que el nombre del metodo es incorrecto pero la lógica es
+        correcta
     */
     public ArrayList<Prestamo> recuperaUsuariosPorFecha(LocalDate fechaLocalDate) {
         ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocalDate);
         if(prestamos.isEmpty()){
-            throw new UnsupportedOperationException("No se encontraron usuarios");
+            throw new UnsupportedOperationException("No se encontraron prestamos");
         }else{
             return prestamos;
         }

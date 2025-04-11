@@ -89,6 +89,11 @@ public class ControladorInicio {
          System.out.println("Se terminaron de enviar los correos");
     }
      
+     
+    /*
+     Recupera los prestamos con una fecha limite cercana, y manda un correo a los usuarios respectivos,
+     envia el mensaje incluyendo el prestamo, el titulo del libro y la fecha de devolucion.
+     */ 
      public void enviarRecordatoriosDevolucion() {
         LocalDate fechaLimite = LocalDate.now().plusDays(5); // Fecha límite en 5 días
         List<Prestamo> prestamos = prestamoService.obtenerPrestamosConFechaLimiteCercana(fechaLimite);
