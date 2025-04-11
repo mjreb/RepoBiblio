@@ -4,8 +4,12 @@
  */
 package com.example.demo.formularios.vistas;
 
+import com.example.demo.capanegocio.CorreoService;
 import com.example.demo.capanegocio.PrestamoService;
 import com.example.demo.capanegocio.UserService;
+import com.example.demo.capanegocio.modelo.Prestamo;
+import com.example.demo.capanegocio.modelo.Usuario;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +35,9 @@ public class CrearPrestamo extends javax.swing.JFrame {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private CorreoService correoService;
     
     /*@Autowired
     private MenuPrestamo prestamo;*/
@@ -158,15 +165,44 @@ public class CrearPrestamo extends javax.swing.JFrame {
             int idLibro=Integer.parseInt(jTextFieldIDLibro.getText());
             String nombreSucursal=jTextFieldNombreSucursal.getText();
             MenuPrestamo menuPrestamo=context.getBean(MenuPrestamo.class);
-            prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
-            JOptionPane.showMessageDialog(this, "Prestamo generado");
+            
+            //prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
+            Prestamo prestamo = prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
+
+            String tituloLibro = prestamo.getLibro().getTitulo();
+            LocalDate fechaSolicitud = prestamo.getFechaPrestamo();
+            LocalDate fechaDevolucion = prestamo.getFechaLimite();
+
+            Usuario usuario = userService.obtenerUsuarioPorId(idUsuario);
+
+            String subject = "Confirmación de préstamo de libro";
+            String content = String.format(
+                    "Tu solicitud de préstamo ha sido registrada con éxito:\n\n" +
+                    "ID del libro: %d\nTítulo: %s\nFecha de solicitud: %s\nFecha de devolución: %s\n\n" +
+                    "¡Gracias por su visita!",
+                    idLibro, tituloLibro, fechaSolicitud, fechaDevolucion
+            );
+
+            correoService.sendCorreo(usuario.getCorreo(), subject, content, null);
+
+            // Solo si todo lo anterior funcionó:
+            JOptionPane.showMessageDialog(this, "Préstamo generado y correo de confirmación enviado.");
+
             jTextFieldIDLibro.setText("");
             jTextFieldNombreSucursal.setText("");
+
             menuPrestamo.pasarId(idUsuario);
             menuPrestamo.setVisible(true);
             this.dispose();
+            
+            
+            
         }catch(IllegalArgumentException e){
             JOptionPane.showMessageDialog(this, "El libro no existe","Error",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al procesar la solicitud :c", "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        
         }
     }//GEN-LAST:event_jButtonSolicitarActionPerformed
 

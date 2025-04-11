@@ -155,7 +155,11 @@ public class MenuUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonIrADevolucionesActionPerformed
 
     private void jButtonIrAAservoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAAservoActionPerformed
-        // TODO add your handling code here:
+        AservoBiblioteca aservoBiblioteca= context.getBean(AservoBiblioteca.class);
+        aservoBiblioteca.pasarId(idUsuario);
+         System.out.println("Id en MenuUsuario antes de pasar a AservoSucursal" + idUsuario);
+        aservoBiblioteca.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButtonIrAAservoActionPerformed
 
     private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
