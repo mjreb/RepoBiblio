@@ -65,7 +65,10 @@ public class DevolucionService {
     
 
 
-    
+    /*
+        Método que recupera una lista de devoluciones a partir de una fecha indicada por 
+    el administrados al hacer un reporte.
+    */
     public ArrayList<Devolucion> recuperaDevolucionesPorfecha(LocalDate fecha) {
         ArrayList<Devolucion> devolucion = (ArrayList<Devolucion>)devolucionRepository.findByFechaDevolucionGreaterThanEqual(fecha);
 

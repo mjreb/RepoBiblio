@@ -224,6 +224,10 @@ public void revisaCondiciones(long idUsuario) {
         
     }
     
+    /*
+        Método que llama a prestamo repository para obtener una lisat de los prestamos realizados a partir de una fecha indicada
+        por el administrador a la hora de genrar un reporte.
+    */
     public ArrayList<Prestamo> recuperaUsuariosPorFecha(LocalDate fechaLocalDate) {
         ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocalDate);
         if(prestamos.isEmpty()){
@@ -231,6 +235,14 @@ public void revisaCondiciones(long idUsuario) {
         }else{
             return prestamos;
         }
+    }
+    
+    /*
+        Metodo para recupear los prestamos con su fecha limite, esto para poder hacer conmparaciones en clase de controlador
+        y poder mandar los correos 
+    */
+    public List<Prestamo> obtenerPrestamosConFechaLimiteCercana(LocalDate fechaLimite) {
+       return prestamoRepository.findByFechaLimite(fechaLimite); 
     }
     
 }

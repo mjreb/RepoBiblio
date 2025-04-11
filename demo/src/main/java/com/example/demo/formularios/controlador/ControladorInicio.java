@@ -12,7 +12,9 @@ import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Prestamo;
 import com.example.demo.capanegocio.modelo.Sucursal;
 import com.example.demo.formularios.vistas.FormlarioLogin;
+import java.time.LocalDate;
 import java.util.List;
+import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.context.ApplicationContext;
@@ -42,6 +44,7 @@ public class ControladorInicio {
 
     public void inicia(){
         mandaNotificacionesMulta();
+        enviarRecordatoriosDevolucion();
         FormlarioLogin loginForm =context.getBean(FormlarioLogin.class);
         loginForm.setVisible(true);   
     }
@@ -84,6 +87,30 @@ public class ControladorInicio {
             }
         }
          System.out.println("Se terminaron de enviar los correos");
+    }
+     
+     public void enviarRecordatoriosDevolucion() {
+        LocalDate fechaLimite = LocalDate.now().plusDays(5); // Fecha límite en 5 días
+        List<Prestamo> prestamos = prestamoService.obtenerPrestamosConFechaLimiteCercana(fechaLimite);
+
+        for (Prestamo prestamo : prestamos) {
+            String destinatario = prestamo.getUsuario().getCorreo(); // Asumiendo que Usuario tiene un campo email
+            String asunto = "Recordatorio de Devolución de Libro";
+            String mensaje = "Estimado/a " + prestamo.getUsuario().getNombre() + ",\n\n"
+                    + "Este es un recordatorio de que la fecha de devolución del libro \""
+                    + prestamo.getLibro().getTitulo() + "\" es el " + prestamo.getFechaDevolucion() + ".\n\n"
+                    + "Por favor, realiza la devolución a tiempo.\n\n"
+                    + "Gracias.";
+
+            try {
+                correoService.sendCorreo(prestamo.getUsuario().getCorreo(), asunto, mensaje, null);
+                
+                System.out.println("Recordatorio enviado a: " + destinatario);
+            } catch (MessagingException e) {
+                System.err.println("Error al enviar recordatorio a: " + destinatario + " - " + e.getMessage());
+            }
+        }
+        System.out.println("Se terminaron de enviar los correos de devoluciones cercanas");
     }
    
 }
