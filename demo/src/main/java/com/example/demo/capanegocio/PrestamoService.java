@@ -233,11 +233,12 @@ public void revisaCondiciones(long idUsuario) {
 
     public ArrayList<Prestamo> recuperaUsuariosPorFecha(LocalDate fechaLocalDate) {
         ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocalDate);
-        if(prestamos.isEmpty()){
+        /*if(prestamos.isEmpty()){
             throw new UnsupportedOperationException("No se encontraron prestamos");
         }else{
             return prestamos;
-        }
+        }*/
+        return prestamos;
     }
 
     
