@@ -223,7 +223,7 @@ public void revisaCondiciones(long idUsuario) {
         return prestamoRepository.findByFechaLimiteLessThanEqualAndFechaDevolucionIsNull(LocalDate.now());
         
     }
-    
+
     public ArrayList<Prestamo> recuperaUsuariosPorFecha(LocalDate fechaLocalDate) {
         ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>)prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocalDate);
         if(prestamos.isEmpty()){
@@ -232,5 +232,5 @@ public void revisaCondiciones(long idUsuario) {
             return prestamos;
         }
     }
-    
+
 }
