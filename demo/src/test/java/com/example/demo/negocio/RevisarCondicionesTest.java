@@ -4,8 +4,10 @@
  */
 package com.example.demo.negocio;
 
+import com.example.demo.capanegocio.DevolucionService;
 import com.example.demo.capanegocio.ItemInventarioService;
 import com.example.demo.capanegocio.PrestamoService;
+import com.example.demo.capanegocio.SucursalSevice;
 import com.example.demo.capanegocio.UserService;
 import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Prestamo;
@@ -24,10 +26,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.doNothing;
+
 
 
 public class RevisarCondicionesTest {
@@ -52,6 +58,12 @@ public class RevisarCondicionesTest {
     
     @InjectMocks
     private PrestamoService prestamoService;
+    
+    @Mock
+    private SucursalSevice sucursalService;
+    
+    @Mock
+    private DevolucionService devolucionService;
     
     
     /**
@@ -316,6 +328,60 @@ public class RevisarCondicionesTest {
         
         IllegalArgumentException exception= assertThrows(IllegalArgumentException.class, 
             () -> prestamoService.creaPrestamo(10,20L,"Bellas artes"));
+    }
+    
+
+    
+    //Prueba que verifica que se lance una excepcion cuando el usuario no existe al registrar una devolucion
+    //Se configura una busqueda de usuario que retorna vacio (usuario no existente)
+    //se espera una excepción IllegalArgumentException con el mensaje correspondiente
+    @Test
+    void registrarDevolucionUsuarioInvalido() {
+        
+        Prestamo prestamo = new Prestamo();
+        prestamo.setIdPrestamo(19);
+        when(prestamoRepository.findById(19)).thenReturn(Optional.of(prestamo));
+        
+        Usuario usuario = new Usuario();
+        usuario.setidUsuario(20L);
+        
+        prestamo.setUsuario(usuario);
+        
+        when(usuarioRepository.findById(20L)).thenReturn(Optional.of(usuario));
+        
+        when(prestamoRepository.save(any(Prestamo.class))).thenReturn(prestamo);
+        
+        prestamo.setFechaLimite(LocalDate.now().plusDays(10));
+        
+        IllegalArgumentException exception= assertThrows(IllegalArgumentException.class, 
+            () -> prestamoService.registrarDevolucion(19,21L));
+
+    }        
+    
+    //Prueba que verifica que se lance una excepcion cuando el préstamo no exsite al registrar una devolucion
+    // Se configura un usuario valido pero el prestamo no se encuentra en la base de datos
+    //Se espera que se lance una excepción IllegalArgumentException con el mensaje correspondiente
+    @Test
+    void registrarDevolucionPrestamoInvalido() {
+        
+        Prestamo prestamo = new Prestamo();
+        prestamo.setIdPrestamo(19);
+        when(prestamoRepository.findById(19)).thenReturn(Optional.of(prestamo));
+        
+        Usuario usuario = new Usuario();
+        usuario.setidUsuario(20L);
+        
+        prestamo.setUsuario(usuario);
+        
+        when(usuarioRepository.findById(20L)).thenReturn(Optional.of(usuario));
+        
+        when(prestamoRepository.save(any(Prestamo.class))).thenReturn(prestamo);
+        
+        prestamo.setFechaLimite(LocalDate.now().plusDays(10));
+        
+        IllegalArgumentException exception= assertThrows(IllegalArgumentException.class, 
+            () -> prestamoService.registrarDevolucion(20,20L));
+        
     }
  
 }
