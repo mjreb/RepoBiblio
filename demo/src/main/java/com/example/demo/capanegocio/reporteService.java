@@ -3,7 +3,9 @@ package com.example.demo.capanegocio;
 import com.example.demo.capanegocio.modelo.Devolucion;
 import com.example.demo.capanegocio.modelo.Prestamo;
 import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
+
 import com.example.demo.capanegocio.modelo.Reporte;
 import com.example.demo.capanegocio.modelo.Usuario;
 import com.example.demo.capapersistencia.ReporteRepository;

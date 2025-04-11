@@ -4,12 +4,8 @@
  */
 package com.example.demo.formularios.vistas;
 
-import com.example.demo.capanegocio.CorreoService;
 import com.example.demo.capanegocio.PrestamoService;
 import com.example.demo.capanegocio.UserService;
-import com.example.demo.capanegocio.modelo.Prestamo;
-import com.example.demo.capanegocio.modelo.Usuario;
-import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -32,17 +28,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
     
     @Autowired
     private PrestamoService prestamoService;
-    
-    @Autowired
-    private UserService userService;
-    
-    @Autowired
-    private CorreoService correoService;
-    
-    /*@Autowired
-    private MenuPrestamo prestamo;*/
-    
-
+        
     
     /**
      * Creates new form CrearPrestamo
@@ -64,13 +50,16 @@ public class CrearPrestamo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldIDLibro = new javax.swing.JTextField();
-        jTextFieldNombreSucursal = new javax.swing.JTextField();
         jButtonSolicitar = new javax.swing.JButton();
         jButtonIrMenuPrestamo = new javax.swing.JButton();
+        jComboBoxSucursal = new javax.swing.JComboBox<>();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,7 +67,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
 
         jLabel2.setText("ID libro");
 
-        jLabel3.setText("Nombre de la sucursal");
+        jLabel3.setText("Selecciona la sucursal");
 
         jTextFieldIDLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,6 +89,8 @@ public class CrearPrestamo extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zocalo", "Santa Fe", " " }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,12 +111,14 @@ public class CrearPrestamo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonSolicitar)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextFieldNombreSucursal))))
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonSolicitar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jComboBoxSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -142,7 +135,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldNombreSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonSolicitar)
                 .addContainerGap(10, Short.MAX_VALUE))
@@ -163,46 +156,16 @@ public class CrearPrestamo extends javax.swing.JFrame {
         */
         try{
             int idLibro=Integer.parseInt(jTextFieldIDLibro.getText());
-            String nombreSucursal=jTextFieldNombreSucursal.getText();
+            String nombreSucursal=jComboBoxSucursal.getSelectedItem().toString();
             MenuPrestamo menuPrestamo=context.getBean(MenuPrestamo.class);
-            
-            //prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
-            Prestamo prestamo = prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
-
-            String tituloLibro = prestamo.getLibro().getTitulo();
-            LocalDate fechaSolicitud = prestamo.getFechaPrestamo();
-            LocalDate fechaDevolucion = prestamo.getFechaLimite();
-
-            Usuario usuario = userService.obtenerUsuarioPorId(idUsuario);
-
-            String subject = "Confirmación de préstamo de libro";
-            String content = String.format(
-                    "Tu solicitud de préstamo ha sido registrada con éxito:\n\n" +
-                    "ID del libro: %d\nTítulo: %s\nFecha de solicitud: %s\nFecha de devolución: %s\n\n" +
-                    "¡Gracias por su visita!",
-                    idLibro, tituloLibro, fechaSolicitud, fechaDevolucion
-            );
-
-            correoService.sendCorreo(usuario.getCorreo(), subject, content, null);
-
-            // Solo si todo lo anterior funcionó:
-            JOptionPane.showMessageDialog(this, "Préstamo generado y correo de confirmación enviado.");
-
+            prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
+            JOptionPane.showMessageDialog(this, "Prestamo generado");
             jTextFieldIDLibro.setText("");
-            jTextFieldNombreSucursal.setText("");
-
             menuPrestamo.pasarId(idUsuario);
             menuPrestamo.setVisible(true);
             this.dispose();
-            
-            
-            
         }catch(IllegalArgumentException e){
-            JOptionPane.showMessageDialog(this, "El libro no existe","Error",JOptionPane.ERROR_MESSAGE);
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, "Error al procesar la solicitud :c", "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        
+            JOptionPane.showMessageDialog(this, "El libro o no existe","Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonSolicitarActionPerformed
 
@@ -252,10 +215,11 @@ public class CrearPrestamo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonIrMenuPrestamo;
     private javax.swing.JButton jButtonSolicitar;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBoxSucursal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextFieldIDLibro;
-    private javax.swing.JTextField jTextFieldNombreSucursal;
     // End of variables declaration//GEN-END:variables
 }

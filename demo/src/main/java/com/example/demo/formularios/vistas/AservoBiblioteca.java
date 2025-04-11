@@ -9,10 +9,8 @@ import com.example.demo.capanegocio.LibroService;
 import com.example.demo.capanegocio.SucursalSevice;
 import com.example.demo.capanegocio.modelo.Sucursal;
 import javax.swing.DefaultListModel;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.ApplicationContext;
 import javax.swing.JOptionPane;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author 100077515
  */
-@Component
-@Scope("prototype")
 public class AservoBiblioteca extends javax.swing.JFrame {
     @Autowired
     private LibroService libroService;
@@ -29,22 +25,12 @@ public class AservoBiblioteca extends javax.swing.JFrame {
     @Autowired
     private SucursalSevice sucursalService;
     
-    @Autowired 
-    private ApplicationContext context;
-    
-    private long idUsuario; 
-    public void  pasarId(long id){
-       this.idUsuario = id; 
-  }
-    
     /**
      * Creates new form AservoBiblioteca
      */
     public AservoBiblioteca() {
         initComponents();
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +47,6 @@ public class AservoBiblioteca extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,7 +58,7 @@ public class AservoBiblioteca extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Sucursal");
+        jLabel2.setText("Biblioteca:");
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -82,17 +67,10 @@ public class AservoBiblioteca extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jButton1.setText("Buscar");
+        jButton1.setText("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Volver");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -103,23 +81,20 @@ public class AservoBiblioteca extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton1)))
-                .addContainerGap(101, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(161, 161, 161))
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,9 +107,7 @@ public class AservoBiblioteca extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(0, 50, Short.MAX_VALUE))
+                .addGap(0, 91, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,54 +118,38 @@ public class AservoBiblioteca extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     // 1. Obtener nombre de sucursal (Validamos el campo)
-    String nombreSucursal = jTextField1.getText().trim();
-    
-    if (nombreSucursal.isEmpty()) {
-        JOptionPane.showMessageDialog(this, 
-            "Ingrese el nombre de una sucursal", 
-            "Campo vacío", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
+        String nombreSucursal; // Elimina espacios en blanco
+        nombreSucursal = jTextField1.getText().trim();
 
-    try {
-        // 2. Buscar sucursal por nombre
-        Sucursal sucursal = sucursalService.recuperaSucursalPorNombre(nombreSucursal);
-        
-        // 3. Obtener libros
-        List<Libro> libros = libroService.recuperaLibrosPorSucursal(sucursal.getIdSucursal());
-        
-        // 4. Mostrar en resultados
-        if (libros.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "No se encontraron libros en esta sucursal", 
-                "Resultados", JOptionPane.INFORMATION_MESSAGE);
+        if (nombreSucursal.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese el nombre de la sucursal.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Detiene la ejecución si el nombre está vacío
         }
+        /*
+        Sucursal Sucursal = sucursalService.recuperaSucursalPorNombre(nombreSucursal);
+        List<Libro> libros = libroService.recuperaLibrosPorSucursal(Sucursal.getIdSucursal());
+
+        if (libros == null) {
+            JOptionPane.showMessageDialog(this, "Error al recuperar libros. Verifique la conexión o el nombre de la sucursal.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Detiene la ejecución si hay un error
+        }
+        
+
+        if (libros.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron libros para la sucursal: " + nombreSucursal, "Información", JOptionPane.INFORMATION_MESSAGE);
+            DefaultListModel<String> emptyModel = new DefaultListModel<>();
+            jList1.setModel(emptyModel);
+            return; // Detiene la ejecución si no hay libros
+        }
+
         DefaultListModel<String> model = new DefaultListModel<>();
         for (Libro libro : libros) {
-            model.addElement(
-                libro.getTitulo() + " | " + 
-                (libro.getAutor() != null ? libro.getAutor().getNombre() : "Sin autor") + " | " +
-                libro.getAnio()
-            );
+            model.addElement(libro.toString()); // Asegúrate de que Libro tenga un toString() adecuado
         }
         jList1.setModel(model);
-        
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, 
-            "Error: " + e.getMessage(), 
-            "No se encontraron resultados", JOptionPane.ERROR_MESSAGE);
-    }
+        */
     }
 //GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MenuUsuario menuUsuario = context.getBean(MenuUsuario.class);
-        menuUsuario.pasarId(idUsuario);
-        System.out.println("Id en MenuPrestamo  antes de regresar a MenuUsuario" + idUsuario);
-        menuUsuario.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,7 +188,6 @@ public class AservoBiblioteca extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
