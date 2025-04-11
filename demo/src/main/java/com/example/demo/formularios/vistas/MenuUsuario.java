@@ -62,9 +62,9 @@ public class MenuUsuario extends javax.swing.JFrame {
         jButtonIrADevoluciones = new javax.swing.JButton();
         jButtonIrAAservo = new javax.swing.JButton();
         Cerrar = new javax.swing.JButton();
+        jButtonIrHorarioSucursales = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(402, 136));
 
         jLabel1.setText("Menu de usuario");
 
@@ -96,27 +96,32 @@ public class MenuUsuario extends javax.swing.JFrame {
             }
         });
 
+        jButtonIrHorarioSucursales.setText("Horario sucursales");
+        jButtonIrHorarioSucursales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIrHorarioSucursalesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jButtonIrAPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonIrADevoluciones)
-                .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(Cerrar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(jButtonIrAAservo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jButtonIrAAservo)
+                    .addComponent(jButtonIrAPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonIrADevoluciones)
+                    .addComponent(jButtonIrHorarioSucursales))
+                .addGap(40, 40, 40))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(52, 52, 52)
+                .addComponent(Cerrar)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -130,9 +135,11 @@ public class MenuUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonIrADevoluciones)
                     .addComponent(jButtonIrAPrestamos))
-                .addGap(30, 30, 30)
-                .addComponent(jButtonIrAAservo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonIrAAservo)
+                    .addComponent(jButtonIrHorarioSucursales))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -163,6 +170,13 @@ public class MenuUsuario extends javax.swing.JFrame {
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_CerrarActionPerformed
+//Este metodo se encarga de ir a la vista HorarioSucursales
+    private void jButtonIrHorarioSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrHorarioSucursalesActionPerformed
+        HorarioSucursales sucursales=context.getBean(HorarioSucursales.class);
+        sucursales.pasarId(idUsuario);
+        sucursales.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonIrHorarioSucursalesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,6 +204,7 @@ public class MenuUsuario extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MenuUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -204,6 +219,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     private javax.swing.JButton jButtonIrAAservo;
     private javax.swing.JButton jButtonIrADevoluciones;
     private javax.swing.JButton jButtonIrAPrestamos;
+    private javax.swing.JButton jButtonIrHorarioSucursales;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
