@@ -8,22 +8,16 @@ import com.example.demo.capanegocio.LibroService;
 import com.example.demo.capapersistencia.LibroRepository;
 import com.example.demo.capanegocio.modelo.Autor;
 import com.example.demo.capapersistencia.AutorRepository;
-
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import com.example.demo.capanegocio.CorreoService;
-import com.example.demo.capanegocio.InventarioService;
 import com.example.demo.capanegocio.SucursalSevice;
 import com.example.demo.capanegocio.UserService;
-import com.example.demo.capanegocio.ItemInventarioService;
-import com.example.demo.capanegocio.modelo.Inventario;
-import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Sucursal;
 import com.example.demo.capanegocio.modelo.Usuario;
-import com.example.demo.capapersistencia.InventarioRepository;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import javax.swing.JFormattedTextField;
@@ -53,9 +47,6 @@ public class FormularioLibros extends javax.swing.JFrame {
     LibroRepository libroRepository;
     
     @Autowired
-    InventarioRepository inventarioRepository;
-    
-    @Autowired
     private ApplicationContext context;
     
     @Autowired
@@ -66,13 +57,6 @@ public class FormularioLibros extends javax.swing.JFrame {
     
     @Autowired
     private SucursalSevice sucursalSevice;
-    
-    @Autowired
-    private InventarioService inventarioService;
-    
-    @Autowired
-    private ItemInventarioService itemInventarioService;
-    
     
     @Autowired
     public FormularioLibros() {
@@ -304,17 +288,10 @@ public class FormularioLibros extends javax.swing.JFrame {
             int cantidad = Integer.parseInt(txtCantidad.getText());
             int anio = Integer.parseInt(txtAnio.getText());
             long idAutor = Long.parseLong(txtIdAutor.getText());
-            String nombreSuc = (String) cmbSucursal.getSelectedItem();
             Autor autorExistente = autorRepository.findById(idAutor)
                     .orElseThrow(()-> new IllegalArgumentException("Autor no encontrado: " + idAutor));
             
-            //libroService.agregaLibro(titulo, editorial, anio, idAutor);
-            Libro libro =libroService.agregaLibro(titulo, editorial, anio, idAutor);
-            Sucursal sucursal=sucursalSevice.recuperaSucursalPorNombre(nombreSuc);
-            Inventario inventario =inventarioService.recuperarInventarioPorSucursal(sucursal);
-            
-            itemInventarioService.agregarLibro(libro.getIdLibro(), inventario.getIdInventario(), cantidad);
-            
+            libroService.agregaLibro(titulo, editorial, anio, idAutor);
             JOptionPane.showMessageDialog(this, "Libro guardado exitosamente");
             notificarUsuariosNuevoLibro(titulo);
             MenuAdmin mAd=context.getBean(MenuAdmin.class);
@@ -322,7 +299,6 @@ public class FormularioLibros extends javax.swing.JFrame {
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al introducir datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
             
 }
     }//GEN-LAST:event_GuardarActionPerformed

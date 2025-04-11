@@ -27,11 +27,6 @@ public class InventarioService {
     public Inventario recuperarInventarioPorSucursal(Sucursal sucursal){
         
         Inventario inventario = inventarioRepository.findBySucursal(sucursal);
-        if (inventario==null){
-            inventario=new Inventario();
-            inventario.setSucursal(sucursal);
-            inventario=inventarioRepository.save(inventario);
-        }
 
         return inventario; 
         
