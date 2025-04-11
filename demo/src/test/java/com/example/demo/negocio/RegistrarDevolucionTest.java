@@ -1,6 +1,7 @@
 
 package com.example.demo.negocio;
 
+import com.example.demo.capanegocio.ItemInventarioService;
 import com.example.demo.capanegocio.PrestamoService;
 import com.example.demo.capanegocio.UserService;
 import com.example.demo.capanegocio.modelo.Libro;
@@ -45,8 +46,13 @@ public class RegistrarDevolucionTest {
     @Mock
     private SucursalRepository sucursalRepository;
     
+    @Mock
+    private ItemInventarioService itemInventarioService;
+    
     @InjectMocks
     private PrestamoService prestamoService;
+    
+    
     
     
     /**
