@@ -36,6 +36,7 @@ public class MenuPrestamo extends javax.swing.JFrame {
     @Autowired
     private PrestamoService prestamoService;
     
+    
     public MenuPrestamo() {
         initComponents();
     }

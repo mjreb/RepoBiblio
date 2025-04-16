@@ -5,12 +5,16 @@
 package com.example.demo.formularios.vistas;
 
 import com.example.demo.capanegocio.CorreoService;
+import com.example.demo.capanegocio.LibroService;
 import com.example.demo.capanegocio.PrestamoService;
 import com.example.demo.capanegocio.UserService;
+import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Prestamo;
 import com.example.demo.capanegocio.modelo.Usuario;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -39,6 +43,9 @@ public class CrearPrestamo extends javax.swing.JFrame {
     @Autowired
     private CorreoService correoService;
     
+    @Autowired
+    private LibroService libroService;
+    
     /*@Autowired
     private MenuPrestamo prestamo;*/
     
@@ -49,11 +56,16 @@ public class CrearPrestamo extends javax.swing.JFrame {
      */
     public CrearPrestamo() {
         initComponents();
+
     }
+    
+   
 
     public void pasarid(long id){
        this.idUsuario = id; 
   }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,9 +80,9 @@ public class CrearPrestamo extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldIDLibro = new javax.swing.JTextField();
-        jTextFieldNombreSucursal = new javax.swing.JTextField();
         jButtonSolicitar = new javax.swing.JButton();
         jButtonIrMenuPrestamo = new javax.swing.JButton();
+        jComboBoxSucursales = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,6 +112,8 @@ public class CrearPrestamo extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxSucursales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zocalo", "Santa Fe", " " }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,7 +128,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                         .addComponent(jButtonIrMenuPrestamo)
                         .addGap(13, 13, 13))
                     .addGroup(layout.createSequentialGroup()
@@ -122,16 +136,15 @@ public class CrearPrestamo extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonSolicitar)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextFieldNombreSucursal))))
+                            .addComponent(jButtonSolicitar)
+                            .addComponent(jComboBoxSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButtonIrMenuPrestamo))
@@ -142,10 +155,10 @@ public class CrearPrestamo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldNombreSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonSolicitar)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addGap(248, 248, 248))
         );
 
         pack();
@@ -163,7 +176,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
         */
         try{
             int idLibro=Integer.parseInt(jTextFieldIDLibro.getText());
-            String nombreSucursal=jTextFieldNombreSucursal.getText();
+            String nombreSucursal=jComboBoxSucursales.getSelectedItem().toString();
             MenuPrestamo menuPrestamo=context.getBean(MenuPrestamo.class);
             
             //prestamoService.creaPrestamo(idLibro, idUsuario, nombreSucursal);
@@ -189,7 +202,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Préstamo generado y correo de confirmación enviado.");
                
             jTextFieldIDLibro.setText("");
-            jTextFieldNombreSucursal.setText("");
+            
             
             menuPrestamo.pasarId(idUsuario);
             menuPrestamo.setVisible(true);
@@ -252,10 +265,10 @@ public class CrearPrestamo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonIrMenuPrestamo;
     private javax.swing.JButton jButtonSolicitar;
+    private javax.swing.JComboBox<String> jComboBoxSucursales;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextFieldIDLibro;
-    private javax.swing.JTextField jTextFieldNombreSucursal;
     // End of variables declaration//GEN-END:variables
 }

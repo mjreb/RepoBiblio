@@ -34,21 +34,19 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="48" max="32767" attributes="0"/>
+                      <EmptySpace pref="34" max="32767" attributes="0"/>
                       <Component id="jButtonIrMenuPrestamo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jButtonSolicitar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="jTextFieldNombreSucursal" max="32767" attributes="0"/>
+                          <Component id="jButtonSolicitar" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxSucursales" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -58,7 +56,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonIrMenuPrestamo" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -71,11 +69,11 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextFieldNombreSucursal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxSucursales" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButtonSolicitar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="10" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="248" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -101,8 +99,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldIDLibroActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldNombreSucursal">
-    </Component>
     <Component class="javax.swing.JButton" name="jButtonSolicitar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Solicitar"/>
@@ -118,6 +114,20 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIrMenuPrestamoActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxSucursales">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="3">
+            <StringItem index="0" value="Zocalo"/>
+            <StringItem index="1" value="Santa Fe"/>
+            <StringItem index="2" value=" "/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
