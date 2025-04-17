@@ -63,7 +63,7 @@ public class ControladorInicio {
          System.out.println(prestamos);
          for (Prestamo p : prestamos) {
         try {
-            Libro libro = libroService.recuperaLibroPorId(p.getLibro().getIdLibro());
+            Libro libro = libroService.recuperaLibroPorId(p.getIdPrestamo());
             Sucursal sucursal = sucursalService.recuperaSucursalPorNombre(p.getNombreSucursal());
             String subject = "MULTA ACUMULADA";
             String content = "Estimado usuario, usted presenta una multa de \n\n" +

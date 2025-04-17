@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -51,37 +52,22 @@ public class RecuperaUsuariosPorFecha {
     
     @Test
     void recuperaUsuariosPorFechaDevuelvePrestamosCuandoExisten(){
-        // Crear un préstamo simulado
-        Prestamo prestamo1 = new Prestamo();
-        List<Prestamo> prestamos = new ArrayList<>();
-        prestamos.add(prestamo1);
-
-        // Configurar el mock del repositorio
+        fechaLocal = LocalDate.now();
+        prestamos = new ArrayList<>();
         when(prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocal)).thenReturn((ArrayList<Prestamo>) prestamos);
-
-        // Llamar al método del servicio
         List<Prestamo> resultado = prestamoService.recuperaUsuariosPorFecha(fechaLocal);
-
-        // Verificar el resultado
         assertEquals(prestamos, resultado);
-
-        // Verificar la interacción con el repositorio
         verify(prestamoRepository).findByFechaPrestamoGreaterThanEqual(fechaLocal);
-    
+        
     }
     
     @Test
     void recuperaUsuariosPorFechaDevuelvePrestamosCuandoNoExisten(){
-        // Configurar el mock del repositorio para devolver una lista vacía
+        fechaLocal = LocalDate.now();
+        
         when(prestamoRepository.findByFechaPrestamoGreaterThanEqual(fechaLocal)).thenReturn(new ArrayList<>());
-
-        // Llamar al método del servicio
         List<Prestamo> resultado = prestamoService.recuperaUsuariosPorFecha(fechaLocal);
-
-        // Verificar el resultado
         assertEquals(new ArrayList<>(), resultado);
-
-        // Verificar la interacción con el repositorio
         verify(prestamoRepository).findByFechaPrestamoGreaterThanEqual(fechaLocal);
 
     }
