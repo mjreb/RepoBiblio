@@ -70,7 +70,7 @@ public class AservoBiblioteca extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Biblioteca");
+        jLabel2.setText("Libro");
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -108,7 +108,7 @@ public class AservoBiblioteca extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
@@ -139,16 +139,58 @@ public class AservoBiblioteca extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+       String busqueda = jTextField1.getText().trim();
+    
+    if (busqueda.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor ingrese un título o autor para buscar");
+        return;
+    }
+    
+    try {
+        // Buscar libros que coincidan con el texto (título o autor)
+        List<Libro> librosEncontrados = libroService.buscarLibrosPorTituloOAutor(busqueda);
+        
+        if (librosEncontrados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron libros con ese titulo");
+            return;
+        }
+        
+        // Crear modelo para la lista
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        
+        // Para cada libro encontrado, obtener sus sucursales disponibles
+        for (Libro libro : librosEncontrados) {
+            List<Sucursal> sucursales = sucursalService.obtenerSucursalesDisponiblesParaLibro(libro.getIdLibro());
+            
+            if (!sucursales.isEmpty()) {
+                String libroInfo = libro.getTitulo() + " - " + libro.getAutor().getNombre();
+                modelo.addElement(libroInfo);
+                
+                for (Sucursal sucursal : sucursales) {
+                    modelo.addElement("   ➔ " + sucursal.getNombre() + " (" + sucursal.getDireccion() + ")");
+                }
+            }
+        }
+        
+        if (modelo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Los libros encontrados no están disponibles en ninguna sucursal");
+            return;
+        }
+        
+        jList1.setModel(modelo);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar libros: " + e.getMessage());
+    }
     
     }
 //GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
-        /*MenuUsuario menuUsuario=context.getBean(MenuUsuario.class);
+        MenuUsuario menuUsuario=context.getBean(MenuUsuario.class);
         menuUsuario.pasarId(idUsuario);
         menuUsuario.setVisible(true);
-        this.dispose();*/
+        this.dispose();
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
     /**
