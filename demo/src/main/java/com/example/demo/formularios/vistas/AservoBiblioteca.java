@@ -14,11 +14,15 @@ import javax.swing.JOptionPane;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author 100077515
  */
+@Component
+@Scope("prototype")
 public class AservoBiblioteca extends javax.swing.JFrame {
     @Autowired
     private LibroService libroService;
