@@ -13,6 +13,9 @@ import com.example.demo.capanegocio.modelo.Prestamo;
 import com.example.demo.capanegocio.modelo.Usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +86,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
         jButtonSolicitar = new javax.swing.JButton();
         jButtonIrMenuPrestamo = new javax.swing.JButton();
         jComboBoxSucursales = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +118,13 @@ public class CrearPrestamo extends javax.swing.JFrame {
 
         jComboBoxSucursales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zocalo", "Santa Fe", " " }));
 
+        jButton1.setText("Mostar Sugerencias");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -128,18 +139,25 @@ public class CrearPrestamo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(jButtonIrMenuPrestamo)
                         .addGap(13, 13, 13))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonSolicitar)
-                            .addComponent(jComboBoxSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton1)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonSolicitar)
+                .addGap(161, 161, 161))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,7 +176,9 @@ public class CrearPrestamo extends javax.swing.JFrame {
                     .addComponent(jComboBoxSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonSolicitar)
-                .addGap(248, 248, 248))
+                .addGap(56, 56, 56)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
@@ -226,6 +246,43 @@ public class CrearPrestamo extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButtonIrMenuPrestamoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+        // Obtener recomendaciones generales
+        List<Libro> recomendaciones = libroService.obtenerRecomendacionesGenerales();
+        
+        if (recomendaciones.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "No hay libros disponibles para mostrar", 
+                "Sin sugerencias", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        // Crear modelo para la lista
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (Libro libro : recomendaciones) {
+            model.addElement(libro.getTitulo() + " - " + libro.getAutor().getNombre());
+        }
+        
+        // Mostrar en un JOptionPane con JList
+        JList<String> list = new JList<>(model);
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setPreferredSize(new java.awt.Dimension(300, 200));
+        
+        JOptionPane.showMessageDialog(
+            this, 
+            scrollPane, 
+            "Libros recomendados", 
+            JOptionPane.PLAIN_MESSAGE
+        );
+        
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, 
+            "Error al obtener recomendaciones: " + ex.getMessage(), 
+            "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -263,6 +320,7 @@ public class CrearPrestamo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonIrMenuPrestamo;
     private javax.swing.JButton jButtonSolicitar;
     private javax.swing.JComboBox<String> jComboBoxSucursales;

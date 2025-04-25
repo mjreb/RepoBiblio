@@ -4,6 +4,7 @@
  */
 package com.example.demo.capapersistencia;
 
+import com.example.demo.capanegocio.modelo.Autor;
 import com.example.demo.capanegocio.modelo.Libro;
 import com.example.demo.capanegocio.modelo.Sucursal;
 
@@ -20,8 +21,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface LibroRepository extends JpaRepository<Libro, Integer>{
-    public Libro findByTitulo(String titulo); 
-    //public List<Libro> findByAutor(String autor);
-    //public List<Libro> findBySucursal_IdSucursal(int sucursalId);
-    //public Libro findById(int id); 
+    public Libro findByTitulo(String titulo);  
+    List<Libro> findByTituloContainingIgnoreCase(String titulo);
+    List<Libro> findByAutorNombreContainingIgnoreCase(String nombreAutor);
+    List<Libro> findTop5ByOrderByIdLibroDesc();
+    
 }
+
+
+

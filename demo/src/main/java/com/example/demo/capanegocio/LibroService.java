@@ -12,6 +12,8 @@ import com.example.demo.capanegocio.modelo.Sucursal;
 import com.example.demo.capapersistencia.AutorRepository;
 import com.example.demo.capapersistencia.LibroRepository;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -119,6 +121,27 @@ public class LibroService {
             return libros;
 
     }
+    
+    public List<Libro> obtenerRecomendacionesGenerales() {
+    // Libros más recientes 
+    return libroRepository.findTop5ByOrderByIdLibroDesc();
+    
+}
+    
+    public List<Libro> buscarLibrosPorTituloOAutor(String criterio) {
+    // Buscar por título
+    List<Libro> porTitulo = libroRepository.findByTituloContainingIgnoreCase(criterio);
+    
+    // Buscar por nombre de autor
+    List<Libro> porAutor = libroRepository.findByAutorNombreContainingIgnoreCase(criterio);
+    
+    // Combinar y eliminar duplicados
+    Set<Libro> resultados = new HashSet<>();
+    resultados.addAll(porTitulo);
+    resultados.addAll(porAutor);
+    
+    return new ArrayList<>(resultados);
+}
     
     
     
